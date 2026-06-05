@@ -58,7 +58,11 @@ red/amber for failed downloads and accounts).
 
 ## 2. Screenshots
 
-> Coming with the first release — download list & settings in full dark.
+| Download list | Advanced Settings |
+|:---:|:---:|
+| ![Download list in JD Plain Dark](docs/screenshots/download-list.svg) | ![Advanced Settings in JD Plain Dark](docs/screenshots/settings.svg) |
+
+> Placeholders for now — real screenshots land with the first release (captured in a desktop JDownloader).
 
 ## 3. Install
 
