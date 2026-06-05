@@ -1,0 +1,9 @@
+# Keep LF in the repo for all text files (shell scripts must stay LF for Linux/CI)
+* text=auto eol=lf
+
+# Windows batch wrapper expects CRLF
+*.bat text eol=crlf
+
+# Binary assets
+*.png binary
+*.ico binary
