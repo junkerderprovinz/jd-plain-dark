@@ -58,11 +58,11 @@ red/amber for failed downloads and accounts).
 
 ## 2. Screenshots
 
-| Download list | Advanced Settings |
-|:---:|:---:|
-| ![Download list in JD Plain Dark](docs/screenshots/download-list.svg) | ![Advanced Settings in JD Plain Dark](docs/screenshots/settings.svg) |
+<p align="center">
+  <img src="docs/screenshots/preview.png" alt="JD Plain Dark — download list, context menu and settings in monochrome Carbon #161616" width="92%">
+</p>
 
-> Placeholders for now — real screenshots land with the first release (captured in a desktop JDownloader).
+<p align="center"><sub>The whole UI in monochrome IBM&nbsp;Carbon <code>#161616</code> — download list, context menu and settings.</sub></p>
 
 ## 3. Install
 
