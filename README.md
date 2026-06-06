@@ -6,8 +6,11 @@
 
 <p align="center">
   <a href="https://github.com/junkerderprovinz/jd-plain-dark/actions/workflows/lint.yml"><img src="https://img.shields.io/github/actions/workflow/status/junkerderprovinz/jd-plain-dark/lint.yml?branch=main&label=Lint&style=for-the-badge&logo=githubactions&logoColor=white" alt="Lint" height="36"></a>&nbsp;
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&logo=opensourceinitiative&logoColor=white" alt="License" height="36"></a>&nbsp;
-  <a href="https://jdownloader.org"><img src="https://img.shields.io/badge/JDownloader-2-2d8a42?style=for-the-badge&logoColor=white" alt="JDownloader 2" height="36"></a>
+  <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases/latest"><img src="https://img.shields.io/github/v/release/junkerderprovinz/jd-plain-dark?display_name=tag&sort=semver&style=for-the-badge&logo=semver&logoColor=white&color=success&cacheSeconds=300" alt="Release" height="36"></a>&nbsp;
+  <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases"><img src="https://img.shields.io/github/downloads/junkerderprovinz/jd-plain-dark/total?style=for-the-badge&logo=github&logoColor=white&label=Downloads" alt="Downloads" height="36"></a>&nbsp;
+  <a href="#3-install"><img src="https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-555?style=for-the-badge" alt="Platform" height="36"></a>&nbsp;
+  <a href="https://jdownloader.org"><img src="https://img.shields.io/badge/JDownloader-2-2d8a42?style=for-the-badge&logoColor=white" alt="JDownloader 2" height="36"></a>&nbsp;
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&logo=opensourceinitiative&logoColor=white" alt="License" height="36"></a>
 </p>
 
 <br>
@@ -56,6 +59,8 @@ red/amber for failed downloads and accounts).
 - **No patched `flatlaf.jar`, no Java agent** — survives JDownloader self-updates.
 - One file to install, one file to remove.
 
+<br>
+
 ## 2. Screenshots
 
 <p align="center">
@@ -63,6 +68,8 @@ red/amber for failed downloads and accounts).
 </p>
 
 <p align="center"><sub>The whole UI in monochrome IBM&nbsp;Carbon <code>#161616</code> — download list, context menu and settings.</sub></p>
+
+<br>
 
 ## 3. Install
 
@@ -84,6 +91,8 @@ The installer copies `FlatDarkLaf.json` into JD's `cfg/laf/` and selects the
 2. In JDownloader: **Settings → GUI → Look & Feel → `FLATLAF_DARK`**.
 3. **Restart JDownloader.**
 
+<br>
+
 ## 4. How it works
 
 JDownloader stores per-Look-&-Feel colours in `cfg/laf/FlatDarkLaf.json` using `colorfor*`
@@ -94,10 +103,14 @@ content areas too, not only the Swing chrome. `iconsetid: flat` selects the JD P
 That is the whole trick: no bytecode patching, no `-javaagent`. Because it is plain
 configuration, JD's automatic updates don't break it.
 
+<br>
+
 ## 5. Uninstall
 
 Delete `cfg/laf/FlatDarkLaf.json` from your JDownloader folder and pick another Look & Feel
 under **Settings → GUI → Look & Feel**, then restart JDownloader.
+
+<br>
 
 ## 6. Credits
 
@@ -106,6 +119,8 @@ areas — was inspired by the community **Material Darker** theme. The colours h
 (IBM Carbon monochrome) and no Material Darker code or assets are included. Licensed MIT.
 
 Derived from the dark theme built into the [JDownloader-for-Unraid container](https://github.com/junkerderprovinz/jdownloader).
+
+<br>
 
 ## 7. Support this project
 
