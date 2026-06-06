@@ -77,13 +77,17 @@ red/amber for failed downloads and accounts).
 
 1. Download `jd-plain-dark-vX.Y.Z.zip` from the [latest release](https://github.com/junkerderprovinz/jd-plain-dark/releases/latest) and unzip it.
 2. Run the installer for your OS:
-   - **Windows:** double-click `install/install.bat` (or run `install/install.ps1`).
+   - **Windows:** double-click **`install/install.bat`** (recommended). It keeps the
+     window open and, if it can't find JDownloader automatically, **asks you for the
+     folder**. (Right-click `install/install.ps1` → *Run with PowerShell* also works.)
    - **Linux / macOS:** `sh install/install.sh "/path/to/JDownloader"`
-     (the folder that contains `cfg`). Without an argument it tries common locations.
+     (the folder that contains `cfg`). Without an argument it auto-detects, and prompts
+     if it can't.
 3. **Restart JDownloader.**
 
 The installer copies `FlatDarkLaf.json` into JD's `cfg/laf/` and selects the
-`FLATLAF_DARK` Look & Feel for you.
+`FLATLAF_DARK` Look & Feel. On Windows PowerShell 5.1 it copies the file and then asks
+you to pick **Settings → GUI → Look & Feel → `FLATLAF_DARK`** once.
 
 ### Option B — manual (one file)
 

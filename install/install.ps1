@@ -1,24 +1,40 @@
 # JD Plain Dark installer (Windows)
-# Usage: powershell -ExecutionPolicy Bypass -File install.ps1 [-JdDir "C:\path\to\JDownloader"]
+# Recommended: double-click install.bat. Or right-click this file > Run with PowerShell.
+# Manual:      powershell -ExecutionPolicy Bypass -File install.ps1 [-JdDir "C:\path\to\JDownloader"]
 param([string]$JdDir = "")
 $ErrorActionPreference = "Stop"
 
+function Hold { try { if ($Host.UI.RawUI) { Read-Host "`nPress Enter to close" | Out-Null } } catch {} }
+
 $here = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $src  = Join-Path $here "theme\cfg\laf\FlatDarkLaf.json"
+if (-not (Test-Path $src)) {
+  Write-Host "ERROR: $src not found. Run this from the unzipped release folder."
+  Hold; exit 1
+}
 
+# Auto-detect the JDownloader folder (the one that contains 'cfg').
 if (-not $JdDir) {
   $cands = @(
-    "$env:APPDATA\JDownloader 2.0",
-    "$env:LOCALAPPDATA\JDownloader 2.0",
+    "C:\Program Files\JDownloader",
     "C:\Program Files\JDownloader 2.0",
-    "$env:USERPROFILE\JDownloader"
+    "C:\Program Files (x86)\JDownloader",
+    "C:\Program Files (x86)\JDownloader 2.0",
+    "$env:LOCALAPPDATA\JDownloader",
+    "$env:LOCALAPPDATA\JDownloader 2.0",
+    "$env:APPDATA\JDownloader",
+    "$env:APPDATA\JDownloader 2.0",
+    "$env:USERPROFILE\JDownloader",
+    "$env:USERPROFILE\JDownloader 2.0"
   )
-  foreach ($c in $cands) {
-    if (Test-Path (Join-Path $c "cfg")) { $JdDir = $c; break }
-  }
+  foreach ($c in $cands) { if ($c -and (Test-Path (Join-Path $c "cfg"))) { $JdDir = $c; break } }
 }
-if (-not $JdDir -or -not (Test-Path (Join-Path $JdDir "cfg"))) {
-  Write-Error "JDownloader cfg dir not found. Pass -JdDir pointing at the folder that contains 'cfg'."
+
+# Interactive fallback - never fail silently.
+while (-not $JdDir -or -not (Test-Path (Join-Path $JdDir "cfg"))) {
+  Write-Host "Could not auto-detect JDownloader."
+  $JdDir = Read-Host "Enter your JDownloader folder (the one that contains 'cfg'), or leave empty to cancel"
+  if (-not $JdDir) { Write-Host "Cancelled - nothing changed."; Hold; exit 1 }
 }
 
 $lafDir = Join-Path $JdDir "cfg\laf"
@@ -35,7 +51,8 @@ if ($PSVersionTable.PSVersion.Major -ge 6) {
   ($d | ConvertTo-Json -Depth 10) | Out-File -FilePath $gui -Encoding utf8
   Write-Host "Set lookandfeeltheme=FLATLAF_DARK"
 } else {
-  Write-Host "NOTE: Windows PowerShell 5.1 can't safely merge the settings file."
-  Write-Host "      Open JDownloader and pick Settings > GUI > Look & Feel > FLATLAF_DARK once."
+  Write-Host "NOTE: Windows PowerShell 5.1 - now open JDownloader and pick"
+  Write-Host "      Settings > GUI > Look & Feel > FLATLAF_DARK once."
 }
 Write-Host "Done. Restart JDownloader."
+Hold
