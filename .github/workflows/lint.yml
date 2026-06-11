@@ -12,7 +12,16 @@ jobs:
 
       - name: Validate JSON
         run: |
-          python -c "import json,glob; [json.load(open(f)) for f in glob.glob('theme/**/*.json', recursive=True)]; print('JSON OK')"
+          python - <<'EOF'
+          import json, glob, sys
+          files = glob.glob('theme/**/*.json', recursive=True)
+          if not files:
+              sys.exit('ERROR: no theme JSON files found under theme/ - glob matched nothing')
+          for f in files:
+              with open(f) as fh:
+                  json.load(fh)
+          print(f'JSON OK ({len(files)} file(s))')
+          EOF
 
       - name: ShellCheck
         run: |
@@ -21,3 +30,29 @@ jobs:
 
       - name: Installer integration test
         run: sh test/test-install.sh
+
+  installer-pwsh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Behavioral test of install.ps1 (pwsh >= 6 path)
+        shell: pwsh
+        run: |
+          # Fake JDownloader dir with a pre-existing GUI settings file.
+          $jd = Join-Path ([IO.Path]::GetTempPath()) ("jd-" + [guid]::NewGuid())
+          New-Item -ItemType Directory -Force -Path (Join-Path $jd "cfg") | Out-Null
+          $gui = Join-Path $jd "cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings.json"
+          '{"foo":"bar"}' | Set-Content -Path $gui -Encoding utf8
+
+          & ./install/install.ps1 -JdDir $jd
+          if ($LASTEXITCODE) { throw "install.ps1 exited with $LASTEXITCODE" }
+
+          $theme = Join-Path $jd "cfg/laf/FlatDarkLaf.json"
+          if (-not (Test-Path $theme)) { throw "FlatDarkLaf.json was not copied to cfg/laf" }
+          $null = Get-Content $theme -Raw | ConvertFrom-Json   # must be valid JSON
+
+          $cfg = Get-Content $gui -Raw | ConvertFrom-Json
+          if ($cfg.lookandfeeltheme -ne 'FLATLAF_DARK') { throw "lookandfeeltheme = '$($cfg.lookandfeeltheme)' (expected FLATLAF_DARK)" }
+          if ($cfg.foo -ne 'bar') { throw "pre-existing settings key was lost" }
+          Write-Host "PASS installer behavioral test (pwsh $($PSVersionTable.PSVersion))"
