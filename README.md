@@ -1,5 +1,3 @@
-<h1 align="center">JD Plain Dark</h1>
-
 <a href="https://jdownloader.org">
   <img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/banner.svg" alt="JD Plain Dark" width="100%">
 </a>
