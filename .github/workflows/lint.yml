@@ -8,7 +8,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Validate JSON
         run: |
@@ -34,7 +34,7 @@ jobs:
   installer-pwsh:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Behavioral test of install.ps1 (pwsh >= 6 path)
         shell: pwsh
