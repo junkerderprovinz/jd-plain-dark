@@ -55,6 +55,7 @@ red/amber for failed downloads and accounts).
 
 - Works on **Windows, macOS and Linux** (it is just JD config).
 - **No patched `flatlaf.jar`, no Java agent** — survives JDownloader self-updates.
+- **Ad-free too:** the installer also switches off JDownloader's built-in advertisements (the *"Become premium user"* banner, the premium-alert column nags, special-deal popups), so the GUI stays clean and the download graph keeps its full height. Ads only — the Donate button and all functional settings are untouched.
 - One file to install, one file to remove.
 
 <br>
@@ -101,6 +102,11 @@ JDownloader stores per-Look-&-Feel colours in `cfg/laf/FlatDarkLaf.json` using `
 keys (e.g. `colorfortablepackagerowbackground`). JD's own renderer reads these — including the
 ExtTable behind the download list, link grabber and settings — so setting them dark colours the
 content areas too, not only the Swing chrome. `iconsetid: flat` selects the JD Plain icons.
+
+The installer also writes two things into `cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings.json`:
+`lookandfeeltheme: FLATLAF_DARK` (so the dark L&F is active) and a handful of `false` flags that
+switch off JDownloader's built-in advertisements (`bannerenabled`, the `premiumalert*` columns,
+`specialdeals*`, the status-bar premium button). Ads only — nothing functional is changed.
 
 That is the whole trick: no bytecode patching, no `-javaagent`. Because it is plain
 configuration, JD's automatic updates don't break it.

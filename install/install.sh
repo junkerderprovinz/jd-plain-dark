@@ -47,9 +47,17 @@ if os.path.exists(p):
     except Exception:
         d = {}
 d["lookandfeeltheme"] = "FLATLAF_DARK"
+# Also switch off JDownloader's built-in advertisements so the GUI stays clean and
+# the download graph keeps its full height (the "Become premium user" banner
+# otherwise squeezes it). Ads only - Donate and functional settings untouched.
+for k in ("bannerenabled", "statusbaraddpremiumbuttonvisible",
+          "premiumalertspeedcolumnenabled", "premiumalerttaskcolumnenabled",
+          "premiumalertetacolumnenabled", "premiumdisabledwarningflashenabled",
+          "specialdealsenabled", "specialdealoboomdialogvisibleonstartup"):
+    d[k] = False
 json.dump(d, open(p, "w"), indent=2)
 PY
-  echo "Set lookandfeeltheme=FLATLAF_DARK"
+  echo "Set lookandfeeltheme=FLATLAF_DARK + disabled built-in ads"
 else
   echo "NOTE: python3 not found - open JDownloader and pick"
   echo "      Settings > GUI > Look & Feel > FLATLAF_DARK once."

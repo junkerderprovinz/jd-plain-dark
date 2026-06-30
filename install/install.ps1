@@ -48,8 +48,19 @@ if ($PSVersionTable.PSVersion.Major -ge 6) {
   if (Test-Path $gui) { try { $d = Get-Content $gui -Raw | ConvertFrom-Json -AsHashtable } catch { $d = @{} } }
   if ($null -eq $d) { $d = @{} }
   $d["lookandfeeltheme"] = "FLATLAF_DARK"
+  # Also switch off JDownloader's built-in advertisements so the GUI stays clean
+  # and the download graph keeps its full height (the "Become premium user" banner
+  # otherwise squeezes it). Ads only - Donate and functional settings untouched.
+  $d["bannerenabled"] = $false
+  $d["statusbaraddpremiumbuttonvisible"] = $false
+  $d["premiumalertspeedcolumnenabled"] = $false
+  $d["premiumalerttaskcolumnenabled"] = $false
+  $d["premiumalertetacolumnenabled"] = $false
+  $d["premiumdisabledwarningflashenabled"] = $false
+  $d["specialdealsenabled"] = $false
+  $d["specialdealoboomdialogvisibleonstartup"] = $false
   ($d | ConvertTo-Json -Depth 10) | Out-File -FilePath $gui -Encoding utf8
-  Write-Host "Set lookandfeeltheme=FLATLAF_DARK"
+  Write-Host "Set lookandfeeltheme=FLATLAF_DARK + disabled built-in ads"
 } else {
   Write-Host "NOTE: Windows PowerShell 5.1 - now open JDownloader and pick"
   Write-Host "      Settings > GUI > Look & Feel > FLATLAF_DARK once."

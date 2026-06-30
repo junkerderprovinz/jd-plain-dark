@@ -15,6 +15,8 @@ grep -q 'FLATLAF_DARK' "$TMP/cfg/org.jdownloader.settings.GraphicalUserInterface
   || { echo "FAIL(1): lookandfeeltheme not set"; exit 1; }
 grep -q '"foo"' "$TMP/cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings.json" \
   || { echo "FAIL(1): existing key lost"; exit 1; }
+grep -q '"bannerenabled": false' "$TMP/cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings.json" \
+  || { echo "FAIL(1): built-in ads not disabled (bannerenabled)"; exit 1; }
 echo "PASS(1) explicit path"
 
 # --- Test 2: auto-detection (no argument), via a $HOME candidate ---
