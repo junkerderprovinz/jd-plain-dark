@@ -1,3 +1,6 @@
 *.zip
 .DS_Store
 Thumbs.db
+
+# proprietary font used at build time to render the wordmark to paths (never committed)
+.github/assets/_fonts/

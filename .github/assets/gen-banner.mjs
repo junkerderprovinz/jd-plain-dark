@@ -1,13 +1,21 @@
 /**
- * Generates the JD Plain Dark README banner (house standard):
- *   banner.svg / banner.png : white 1600x500; the JDownloader logo (from
- *   icon.svg) on the left, "JD Plain Dark" in Bree Serif + a claim in Lato to
- *   the right. Text is baked to paths (opentype.js) so the SVG needs no font.
+ * Generates the JD Plain Dark README banners (theme-adaptive pair) in the JDownloader
+ * main-repo house style:
+ *   banner.svg / .png       : light 1600x500 - the JDownloader globe on the LEFT, then the
+ *                             "JD PLAIN DARK" wordmark + a cheeky claim.
+ *   banner-dark.svg / .png  : same layout on GitHub-dark #0d1117, light text + lightened globe.
+ * The README serves the pair via <picture> (prefers-color-scheme).
  *
- * Deps (global): opentype.js, @resvg/resvg-js. Bree Serif + Lato (OFL) are
- * fetched at runtime to the OS temp dir — not committed.
+ * Wordmark: the JDownloader treatment applied to the theme name - the signature giant Myriad
+ * Pro SEMIBOLD "J" (with the crossbar across its top), reused VERBATIM from the JDOWNLOADER
+ * mark, then the rest of the name in Myriad Pro BLACK caps. So the leading "JD" reads exactly
+ * like the "JD" in JDOWNLOADER. Rendered to VECTOR PATHS (opentype.js); letters are FLAT
+ * (#161616 light / light on dark). The claim uses Lato (OFL).
  *
- * Run: node .github/assets/gen-banner.mjs
+ * The Myriad Pro OTFs live at .github/assets/_fonts/ (gitignored - NEVER committed; only the
+ * glyph outlines land in the SVG). Nominative use echoing the product's own mark.
+ *
+ * Deps: `npm i -g @resvg/resvg-js opentype.js`. Run: node .github/assets/gen-banner.mjs
  */
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -17,61 +25,119 @@ import { createRequire } from "node:module";
 import { execSync } from "node:child_process";
 
 const require = createRequire(import.meta.url);
-const groot = execSync("npm root -g").toString().trim();
-const opentype = require(`${groot}/opentype.js`);
-const { Resvg } = require(`${groot}/@resvg/resvg-js`);
+const gRoot = execSync("npm root -g").toString().trim();
+const opentype = require(`${gRoot}/opentype.js`);
+const { Resvg } = require(`${gRoot}/@resvg/resvg-js`);
 const __dir = dirname(fileURLToPath(import.meta.url));
 
-const NAME = "JD Plain Dark";
+// ---- content -----------------------------------------------------------------
+const NAME = "JD PLAIN DARK";                                  // rendered ALL CAPS, JD-wordmark style
 const CLAIM = "Dark across every panel.";
-const NAME_FILL = "#242626", CLAIM_FILL = "#5a5d5e";
-const W = 1600, H = 500, LH = 380, LW = 380;
-const LX = 150, LY = (H - LH) / 2;     // logo: fixed left
-const textX = 600, claimSize = 40, lineGap = 18;
+const THEMES = [
+  { suffix: "",      bg: "#ffffff", name: "#161616", claim: "#5a5d5e", darkGlobe: false },
+  { suffix: "-dark", bg: "#0d1117", name: "#e6edf3", claim: "#9aa4ad", darkGlobe: true  },
+];
+const W = 1600, H = 500;
+const LH = 300, LW = LH;          // globe on the left (square)
+const gap = 60;
+const claimSize = 40;
+const WM_H = 214;                 // nominal wordmark height in the banner
+const MAX_GROUP = W - 150;
 
-async function loadFont(name, url) {
-  const p = join(tmpdir(), name);
-  if (!existsSync(p)) {
-    const r = await fetch(url);
-    if (!r.ok) throw new Error(`font fetch ${r.status}`);
-    writeFileSync(p, Buffer.from(await r.arrayBuffer()));
-  }
-  return opentype.parse(readFileSync(p));
+// Source wordmark geometry (JDownloader "Element 1.svg"; source box height 326.1). The J +
+// crossbar + the caps baseline are reused VERBATIM so the leading "JD" matches JDOWNLOADER.
+const SRC_H = 326.1;
+const CROSSBAR = { x: 27.78, y: 48.9, w: 70.62, h: 24.14 };
+const J_RUN  = { text: "J", x: 0, y: 251.1, size: 300 };        // giant Semibold J
+const REST   = { x: 101.22, y: 205.77, size: 190, ls: -0.04 };  // the rest, Black caps
+
+const black = opentype.parse(readFileSync(join(__dir, "_fonts", "MyriadPro-Black.otf")).buffer);
+const semi  = opentype.parse(readFileSync(join(__dir, "_fonts", "MyriadPro-Semibold.otf")).buffer);
+const latoFile = join(tmpdir(), "JD-Lato-Regular.ttf");
+if (!existsSync(latoFile)) {
+  const r = await fetch("https://github.com/google/fonts/raw/main/ofl/lato/Lato-Regular.ttf");
+  if (!r.ok) throw new Error(`Lato fetch ${r.status}`);
+  writeFileSync(latoFile, Buffer.from(await r.arrayBuffer()));
 }
-const font = await loadFont("BreeSerif-Regular.ttf", "https://github.com/google/fonts/raw/main/ofl/breeserif/BreeSerif-Regular.ttf");
-const claimFont = await loadFont("Lato-Regular.ttf", "https://github.com/google/fonts/raw/main/ofl/lato/Lato-Regular.ttf");
+const lato = opentype.parse(readFileSync(latoFile).buffer);
 
-// Shrink the name until it fits the available width to the right of the logo.
-const maxTextW = W - textX - 80;
-let nameSize = 124;
-while (font.getAdvanceWidth(NAME, nameSize) > maxTextW && nameSize > 60) nameSize -= 2;
+// Render a text run to a path at (x, baseline) with optional letter-spacing (em). Returns
+// { d, endX }. Reads glyph.path.commands (read-only) so a REPEATED letter doesn't come back NaN
+// (opentype's Glyph.getPath() mutates a reused glyph object).
+function runPath(font, text, x, baseline, size, lsEm = 0) {
+  const s = size / font.unitsPerEm, ls = lsEm * size, n = (v) => v.toFixed(2);
+  let d = "", cx = x;
+  for (const ch of text) {
+    const g = font.charToGlyph(ch);
+    for (const c of g.path.commands) {
+      if (c.type === "M") d += `M${n(cx + c.x * s)} ${n(baseline - c.y * s)}`;
+      else if (c.type === "L") d += `L${n(cx + c.x * s)} ${n(baseline - c.y * s)}`;
+      else if (c.type === "C") d += `C${n(cx + c.x1 * s)} ${n(baseline - c.y1 * s)} ${n(cx + c.x2 * s)} ${n(baseline - c.y2 * s)} ${n(cx + c.x * s)} ${n(baseline - c.y * s)}`;
+      else if (c.type === "Q") d += `Q${n(cx + c.x1 * s)} ${n(baseline - c.y1 * s)} ${n(cx + c.x * s)} ${n(baseline - c.y * s)}`;
+      else if (c.type === "Z") d += "Z";
+    }
+    cx += g.advanceWidth * s + ls;
+  }
+  return { d, endX: cx - (text.length ? ls : 0) };   // don't count the trailing letter-spacing
+}
+function runWidth(font, text, size) {
+  const s = size / font.unitsPerEm;
+  let w = 0;
+  for (const ch of text) w += font.charToGlyph(ch).advanceWidth * s;
+  return w;
+}
 
-const sc = (s) => s / font.unitsPerEm;
-const nameAsc = font.ascender * sc(nameSize);
-const nameDesc = -font.descender * sc(nameSize);
-const claimAsc = claimFont.ascender * (claimSize / claimFont.unitsPerEm);
-const blockH = nameAsc + nameDesc + lineGap + claimAsc;
-const nameBaseline = H / 2 - blockH / 2 + nameAsc;
-const claimBaseline = nameBaseline + nameDesc + lineGap + claimAsc;
+// Build the wordmark in the SOURCE coordinate system: giant J + crossbar + Black-caps remainder.
+const jRes = runPath(semi, NAME[0], J_RUN.x, J_RUN.y, J_RUN.size);
+const restRes = runPath(black, NAME.slice(1), REST.x, REST.y, REST.size, REST.ls);
+const wordmarkPath = jRes.d + restRes.d;
+const crossbarPath = `M${CROSSBAR.x} ${CROSSBAR.y} h${CROSSBAR.w} v${CROSSBAR.h} h${-CROSSBAR.w} Z`;
+if ((wordmarkPath + crossbarPath).includes("NaN")) throw new Error("NaN path");
+const SRC_W = restRes.endX;                     // actual right edge of the wordmark
 
-const namePath = font.getPath(NAME, textX, nameBaseline, nameSize).toPathData(2);
-// kerning off: a buggy Lato kern pair (e.g. " w") yields NaN coords that break
-// the rendered path; spacing impact is negligible for a claim line.
-const claimPath = claimFont.getPath(CLAIM, textX, claimBaseline, claimSize, { kerning: false }).toPathData(2);
+// Scale the wordmark to WM_H and lay out globe + wordmark + claim (fit to MAX_GROUP).
+const wmScale = WM_H / SRC_H;
+let s2 = wmScale, wmWFit = SRC_W * wmScale;
+if (LW + gap + wmWFit > MAX_GROUP) { wmWFit = MAX_GROUP - LW - gap; s2 = wmWFit / SRC_W; }
 
-// Embed the logo as a <g transform> (no nested <svg> viewport → no clipping).
-const iconInner = readFileSync(join(__dir, "icon.svg"), "utf8")
-  .replace(/<\?xml[^>]*\?>\s*/, "")
-  .replace(/^[\s\S]*?<svg[^>]*>/, "")
-  .replace(/<\/svg>\s*$/, "");
+const claimAsc = lato.ascender * claimSize / lato.unitsPerEm;
+const claimW = runWidth(lato, CLAIM, claimSize);
+const groupW = LW + gap + Math.max(wmWFit, claimW);
+const startX = (W - groupW) / 2;
+const textX = startX + LW + gap;
 
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <rect width="${W}" height="${H}" fill="#ffffff"/>
-  <g transform="translate(${LX},${LY}) scale(${(LW / 48).toFixed(4)})">${iconInner}</g>
-  <path d="${namePath}" fill="${NAME_FILL}"/>
-  <path d="${claimPath}" fill="${CLAIM_FILL}"/>
+// Vertical: the claim sits just below the caps baseline; the crossbar-top .. claim-baseline
+// block is centred in the card. The globe is centred on the wordmark mass.
+const crossbarTopOff = CROSSBAR.y * s2;
+const restBaseOff = REST.y * s2;
+const claimGap = 16;
+const claimOff = restBaseOff + claimGap + claimAsc;
+const wmTop = H / 2 - (crossbarTopOff + claimOff) / 2;
+const claimBaseline = wmTop + claimOff;
+const LY = wmTop + (crossbarTopOff + restBaseOff) / 2 - LH / 2;
+const claimPath = runPath(lato, CLAIM, textX + REST.x * s2, claimBaseline, claimSize).d;
+
+// Globe: the light card keeps the Carbon-dark body; the dark card lightens it to read on #0d1117.
+const iconRaw = readFileSync(join(__dir, "icon.svg"), "utf8").replace(/<\?xml[^>]*\?>\s*/, "");
+const placeLogo = (svgStr) => svgStr.replace(/<svg[\s\S]*?>/,
+  `<svg x="${startX.toFixed(1)}" y="${LY.toFixed(1)}" width="${LW}" height="${LH}" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">`);
+
+for (const t of THEMES) {
+  const icon = t.darkGlobe
+    ? iconRaw.replace(/#161616/gi, "#2d333b").replace(/#0b0b0b/gi, "#21262d")
+    : iconRaw;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${NAME}">
+  <rect width="${W}" height="${H}" fill="${t.bg}"/>
+  ${placeLogo(icon)}
+  <g transform="translate(${textX.toFixed(2)} ${wmTop.toFixed(2)}) scale(${s2.toFixed(5)})">
+    <path d="${wordmarkPath}" fill="${t.name}"/>
+    <path d="${crossbarPath}" fill="${t.name}"/>
+  </g>
+  <path d="${claimPath}" fill="${t.claim}"/>
 </svg>
 `;
-writeFileSync(join(__dir, "banner.svg"), svg);
-writeFileSync(join(__dir, "banner.png"), new Resvg(svg, { background: "#ffffff", fitTo: { mode: "width", value: W } }).render().asPng());
-console.log("banner.svg + banner.png written");
+  writeFileSync(join(__dir, `banner${t.suffix}.svg`), svg);
+  const png = new Resvg(svg, { fitTo: { mode: "width", value: W }, background: t.bg }).render().asPng();
+  writeFileSync(join(__dir, `banner${t.suffix}.png`), png);
+  console.log(`wrote banner${t.suffix}.svg + .png (wordmark ${Math.round(wmWFit)}x${Math.round(SRC_H * s2)})`);
+}
