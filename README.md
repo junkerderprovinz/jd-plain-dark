@@ -39,9 +39,10 @@ no Java agent</b> — just one config file.
 2. [Screenshots](#2-screenshots)
 3. [Install](#3-install)
 4. [How it works](#4-how-it-works)
-5. [Uninstall](#5-uninstall)
-6. [Credits](#6-credits)
-7. [Support this project](#7-support-this-project)
+5. [Event Scripter fix (optional)](#5-event-scripter-fix-optional)
+6. [Uninstall](#6-uninstall)
+7. [Credits](#7-credits)
+8. [Support this project](#8-support-this-project)
 
 <br>
 
@@ -116,14 +117,37 @@ configuration, JD's automatic updates don't break it.
 
 <br>
 
-## 5. Uninstall
+## 5. Event Scripter fix (optional)
+
+The theme is config-only and needs nothing else. This section is **only** for people who use
+the **Event Scripter** extension and hit a separate JDownloader bug: on any FlatLaf dark Look &
+Feel (this theme *or* JD's own `flatlaf-themes` dark), the Event Scripter **script editor won't
+open** — clicking **edit** or **Add** does nothing. That is a JDownloader bug, not a theme bug
+(the stock dark theme triggers it too), so fixing it needs a small optional add-on rather than a
+config key.
+
+`jd-es-fix.jar` is a tiny, fail-safe `-javaagent` that null-guards the two code paths involved.
+Download it from the [latest release](https://github.com/junkerderprovinz/jd-plain-dark/releases/latest)
+and point JDownloader's JVM at it, e.g.:
+
+```
+JAVA_TOOL_OPTIONS=-javaagent:/full/path/to/jd-es-fix.jar
+```
+
+Full instructions (per-OS setup, building it yourself, and what it patches) are in
+[docs/event-scripter-fix.md](docs/event-scripter-fix.md). If you don't use Event Scripter, ignore
+this entirely — the theme stays pure config, no agent required.
+
+<br>
+
+## 6. Uninstall
 
 Delete `cfg/laf/FlatDarkLaf.json` from your JDownloader folder and pick another Look & Feel
 under **Settings → GUI → Look & Feel**, then restart JDownloader.
 
 <br>
 
-## 6. Credits
+## 7. Credits
 
 The technique — overriding JDownloader's native `colorfor*` colour config to reach the content
 areas — was inspired by the community **Material Darker** theme. The colours here are our own
@@ -133,7 +157,7 @@ Derived from the dark theme built into the [JDownloader-for-Unraid container](ht
 
 <br>
 
-## 7. Support this project
+## 8. Support this project
 
 If this saved you some squinting, you can
 
