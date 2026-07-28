@@ -40,7 +40,7 @@ jobs:
           jar cfm jd-es-fix.jar manifest.mf -C out . org
           jar tf jd-es-fix.jar | grep -q EventScripterFixAgent
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: jd-es-fix.jar
           path: agent/jd-es-fix.jar
