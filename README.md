@@ -11,7 +11,7 @@
   <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases"><img src="https://img.shields.io/github/downloads/junkerderprovinz/jd-plain-dark/total?style=for-the-badge&logo=github&logoColor=white&label=Downloads" alt="Downloads" height="36"></a>&nbsp;
   <a href="#3-install"><img src="https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-555?style=for-the-badge" alt="Platform" height="36"></a>&nbsp;
   <a href="https://jdownloader.org"><img src="https://img.shields.io/badge/JDownloader-2-2d8a42?style=for-the-badge&logoColor=white" alt="JDownloader 2" height="36"></a>&nbsp;
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&logo=opensourceinitiative&logoColor=white" alt="License" height="36"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-blue?style=for-the-badge&logo=gnu&logoColor=white" alt="License: AGPL-3.0" height="36"></a>
 </p>
 
 <br>
@@ -43,6 +43,7 @@ no Java agent</b> — just one config file.
 6. [Uninstall](#6-uninstall)
 7. [Credits](#7-credits)
 8. [Support this project](#8-support-this-project)
+9. [License](#9-license)
 
 <br>
 
@@ -166,3 +167,13 @@ If this saved you some squinting, you can
 </a>
 
 Issues and suggestions: [GitHub Issues](https://github.com/junkerderprovinz/jd-plain-dark/issues).
+
+<br>
+
+## 9. License
+
+**Copyright (C) 2026 Junker der Provinz.**
+
+JD Plain Dark is free software under the **GNU Affero General Public License v3.0** (AGPL-3.0); see [LICENSE](LICENSE). You may run, study, share and modify it. If you distribute it, or run a modified version as a network service, you must release your source under the same AGPL-3.0 terms and keep the existing copyright and attribution notices intact.
+
+**Name and branding are not licensed.** The AGPL covers the source code only. "JD Plain Dark", its logo and its branding remain reserved: a fork or derivative must use its own distinct name and branding, and may not present itself as JD Plain Dark. This keeps it unambiguous which project is the original.
