@@ -42,8 +42,8 @@ no Java agent</b> — just one config file.
 5. [Event Scripter fix (optional)](#5-event-scripter-fix-optional)
 6. [Uninstall](#6-uninstall)
 7. [Credits](#7-credits)
-8. [Support this project](#8-support-this-project)
-9. [License](#9-license)
+8. [License](#8-license)
+9. [Support this project](#9-support-this-project)
 
 <br>
 
@@ -158,22 +158,24 @@ Derived from the dark theme built into the [JDownloader-for-Unraid container](ht
 
 <br>
 
-## 8. Support this project
-
-If this saved you some squinting, you can
-
-<a href="https://buymeacoffee.com/junkerderprovinz">
-  <img src=".github/assets/button-buy-me-a-coffee.svg" alt="Buy me a coffee" width="200">
-</a>
-
-Issues and suggestions: [GitHub Issues](https://github.com/junkerderprovinz/jd-plain-dark/issues).
-
-<br>
-
-## 9. License
+## 8. License
 
 **Copyright (C) 2026 Junker der Provinz.**
 
 JD Plain Dark is free software under the **GNU Affero General Public License v3.0** (AGPL-3.0); see [LICENSE](LICENSE). You may run, study, share and modify it. If you distribute it, or run a modified version as a network service, you must release your source under the same AGPL-3.0 terms and keep the existing copyright and attribution notices intact.
 
 **Name and branding are not licensed.** The AGPL covers the source code only. "JD Plain Dark", its logo and its branding remain reserved: a fork or derivative must use its own distinct name and branding, and may not present itself as JD Plain Dark. This keeps it unambiguous which project is the original.
+
+<br>
+
+## 9. Support this project
+
+If this saved you some squinting, you can
+
+<p align="center">
+  <a href="https://buymeacoffee.com/junkerderprovinz">
+    <img src=".github/assets/button-buy-me-a-coffee.svg" alt="Buy me a coffee" width="220">
+  </a>
+</p>
+
+Issues and suggestions: [GitHub Issues](https://github.com/junkerderprovinz/jd-plain-dark/issues).
