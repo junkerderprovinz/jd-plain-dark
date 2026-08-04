@@ -38,7 +38,7 @@ const THEMES = [
   { suffix: "-dark", bg: "#0d1117", name: "#e6edf3", claim: "#9aa4ad", darkGlobe: true  },
 ];
 const W = 1600, H = 500;
-const LH = 516, LW = LH;          // globe on the left (square) — "recht gross" logo (jdp, pending approval)
+const LH = 470, LW = LH;          // globe on the left (square) — "recht gross" logo (~400px ink, jdp-approved)
 const gap = 70;                   // logo-to-text gap (house standard)
 const claimSize = 44;
 const WM_H = 214;                 // nominal wordmark height in the banner
