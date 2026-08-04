@@ -38,7 +38,7 @@ const THEMES = [
   { suffix: "-dark", bg: "#0d1117", name: "#e6edf3", claim: "#9aa4ad", darkGlobe: true  },
 ];
 const W = 1600, H = 500;
-const LH = 300, LW = LH;          // globe on the left (square) — house standard height
+const LH = 516, LW = LH;          // globe on the left (square) — "recht gross" logo (jdp, pending approval)
 const gap = 70;                   // logo-to-text gap (house standard)
 const claimSize = 44;
 const WM_H = 214;                 // nominal wordmark height in the banner
@@ -111,17 +111,20 @@ const bb = new Resvg(
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${Math.ceil(SRC_W) + 40} 400"><path d="${wordmarkPath}${crossbarPath}"/></svg>`,
   { fitTo: { mode: "original" } },
 ).getBBox();
-const s2 = WM_TARGET / bb.height;
+const s2 = Math.min(WM_TARGET / bb.height, (W - textX - 80) / bb.width);   // height target, width-capped
+const wmH = bb.height * s2;
 const wmWFit = bb.width * s2;
 const claimAsc = lato.ascender * claimSize / lato.unitsPerEm;
 const claimDesc = -lato.descender * claimSize / lato.unitsPerEm;
 const NAME_CLAIM_GAP = 8;
-const blockH = WM_TARGET + NAME_CLAIM_GAP + claimAsc + claimDesc;
+const blockH = wmH + NAME_CLAIM_GAP + claimAsc + claimDesc;
 const top = H / 2 - blockH / 2;
 const wmX = textX - bb.x * s2;                             // left-anchor the wordmark's ink at textX
 const wmTop = top - bb.y * s2;                             // wordmark visible top -> `top`
-const claimBaseline = top + WM_TARGET + NAME_CLAIM_GAP + claimAsc;
-const claimStartX = textX;                                 // claim left-aligned with the wordmark
+const claimBaseline = top + wmH + NAME_CLAIM_GAP + claimAsc;
+// Claim centred on the MIDDLE of the wordmark (jdp: the giant J makes a left-aligned
+// claim start too far left) - the claim begins further right, under the name's centre.
+const claimStartX = textX + (wmWFit - runWidth(lato, CLAIM, claimSize)) / 2;
 const claimPath = runPath(lato, CLAIM, claimStartX, claimBaseline, claimSize).d;
 
 // Globe: the light card keeps the Carbon-dark body; the dark card lightens it to read on #0d1117.
