@@ -34,13 +34,13 @@ const __dir = dirname(fileURLToPath(import.meta.url));
 const NAME = "JD PLAIN DARK";                                  // rendered ALL CAPS, JD-wordmark style
 const CLAIM = "Dark across every panel.";
 const THEMES = [
-  { suffix: "",      bg: "#ffffff", name: "#161616", claim: "#5a5d5e", darkGlobe: false },
+  { suffix: "",      bg: "#ffffff", name: "#1f2328", claim: "#5a5d5e", darkGlobe: false },
   { suffix: "-dark", bg: "#0d1117", name: "#e6edf3", claim: "#9aa4ad", darkGlobe: true  },
 ];
 const W = 1600, H = 500;
-const LH = 386, LW = LH;          // globe on the left (square) — enlarged to the user's refined size
-const gap = 48;
-const claimSize = 40;
+const LH = 300, LW = LH;          // globe on the left (square) — house standard height
+const gap = 70;                   // logo-to-text gap (house standard)
+const claimSize = 44;
 const WM_H = 214;                 // nominal wordmark height in the banner
 const MAX_GROUP = W - 150;
 
@@ -101,14 +101,27 @@ const SRC_W = restRes.endX;                     // actual right edge of the word
 // crossbar aligns to the user's x), 214px tall; the claim is centred under the wordmark. Names
 // shorter than "JD HIGHLIGHTER" simply leave more room on the right — the same slightly
 // left-weighted balance the user chose. (LW/gap/MAX_GROUP now only bound the safety downscale.)
-const startX = 108, LY = 57;                               // globe box -> circle centre (293, 242)
-const textX = 522, wmTop = 138.7;                          // crossbar top -> y=170.8, caps baseline -> y=273.7
-const claimBaseline = 350;                                 // claim baseline, below the wordmark
-const s2 = Math.min(WM_H / SRC_H, (W - textX - 60) / SRC_W);   // 214px tall, capped so it can't overflow right
-const wmWFit = SRC_W * s2;
+// House banner standard: logo left-anchored (165), wordmark to its right, the
+// [wordmark + claim] block vertically centred; claim left-aligned with the
+// wordmark and pulled close (gap 8). Sized + placed by the wordmark's real ink bbox.
+const startX = 165, LY = (H - LH) / 2;
+const textX = startX + LW + gap;
+const WM_TARGET = 150;                                     // visual wordmark height (~ the 132px text names)
+const bb = new Resvg(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${Math.ceil(SRC_W) + 40} 400"><path d="${wordmarkPath}${crossbarPath}"/></svg>`,
+  { fitTo: { mode: "original" } },
+).getBBox();
+const s2 = WM_TARGET / bb.height;
+const wmWFit = bb.width * s2;
 const claimAsc = lato.ascender * claimSize / lato.unitsPerEm;
-const claimW = runWidth(lato, CLAIM, claimSize);
-const claimStartX = textX + (wmWFit - claimW) / 2;         // centre the claim under the wordmark
+const claimDesc = -lato.descender * claimSize / lato.unitsPerEm;
+const NAME_CLAIM_GAP = 8;
+const blockH = WM_TARGET + NAME_CLAIM_GAP + claimAsc + claimDesc;
+const top = H / 2 - blockH / 2;
+const wmX = textX - bb.x * s2;                             // left-anchor the wordmark's ink at textX
+const wmTop = top - bb.y * s2;                             // wordmark visible top -> `top`
+const claimBaseline = top + WM_TARGET + NAME_CLAIM_GAP + claimAsc;
+const claimStartX = textX;                                 // claim left-aligned with the wordmark
 const claimPath = runPath(lato, CLAIM, claimStartX, claimBaseline, claimSize).d;
 
 // Globe: the light card keeps the Carbon-dark body; the dark card lightens it to read on #0d1117.
@@ -123,7 +136,7 @@ for (const t of THEMES) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${NAME}">
   <rect width="${W}" height="${H}" fill="${t.bg}"/>
   ${placeLogo(icon)}
-  <g transform="translate(${textX.toFixed(2)} ${wmTop.toFixed(2)}) scale(${s2.toFixed(5)})">
+  <g transform="translate(${wmX.toFixed(2)} ${wmTop.toFixed(2)}) scale(${s2.toFixed(5)})">
     <path d="${wordmarkPath}" fill="${t.name}"/>
     <path d="${crossbarPath}" fill="${t.name}"/>
   </g>
