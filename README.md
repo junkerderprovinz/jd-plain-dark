@@ -113,6 +113,10 @@ JDownloader stores per-Look-&-Feel colours in `cfg/laf/FlatDarkLaf.json` using `
 keys (e.g. `colorfortablepackagerowbackground`). JD's own renderer reads these — including the
 ExtTable behind the download list, link grabber and settings — so setting them dark colours the
 content areas too, not only the Swing chrome. `iconsetid: flat` selects the JD Plain icons.
+The same file also passes through a handful of raw FlatLaf UIManager keys where JD has no
+`colorfor*` equivalent — e.g. `ProgressBar.selectionForeground`, so the percentage text stays
+readable against the light "Finished" fill instead of inheriting FlatLaf's own (too-light)
+default.
 
 The installer also writes two things into `cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings.json`:
 `lookandfeeltheme: FLATLAF_DARK` (so the dark L&F is active) and a handful of `false` flags that
