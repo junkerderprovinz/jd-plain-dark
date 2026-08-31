@@ -113,6 +113,19 @@ The installer copies `FlatDarkLaf.json` into JD's `cfg/laf/` and selects the
 > `lookandfeeltheme`. If that key offers no `FLATLAF_*` value, your JDownloader core is
 > too old: let it update (**Help → Check for Updates**) and try again.
 
+### Installed on Windows before v1.2.2? Run it again
+
+Up to and including v1.2.1 the Windows installer only applied the settings when it happened
+to run on PowerShell 7. `install.bat` starts Windows PowerShell 5.1 on a stock machine, so
+for most people it copied the theme file, printed `Done`, and changed nothing else — the UI
+stayed light and the note it printed pointed at a menu JDownloader does not have
+([#11](https://github.com/junkerderprovinz/jd-plain-dark/issues/11)).
+
+If that was you, nothing is broken and there is nothing to clean up: download
+[v1.2.2 or later](https://github.com/junkerderprovinz/jd-plain-dark/releases/latest), close
+JDownloader, run the installer again, and start JDownloader. Linux and macOS were never
+affected.
+
 <br>
 
 ## 4. How it works
