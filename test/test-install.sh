@@ -41,8 +41,11 @@ grep -q 'lookandfeeltheme' "$PS1" \
   || { echo "FAIL(4): install.ps1 never writes lookandfeeltheme"; exit 1; }
 grep -qF 'UTF8Encoding' "$PS1" \
   || { echo "FAIL(4): install.ps1 must write BOM-free UTF-8 (JD rejects a BOM)"; exit 1; }
+# These two patterns are PowerShell source, not shell: the $ must stay literal.
+# shellcheck disable=SC2016
 grep -qF 'ReadAllText($gui, [Text.Encoding]::UTF8)' "$PS1" \
   || { echo "FAIL(4): install.ps1 must read the settings as UTF-8 (5.1 defaults to ANSI)"; exit 1; }
+# shellcheck disable=SC2016
 grep -qF '$env:LOCALAPPDATA\JDownloader 2"' "$PS1" \
   || { echo "FAIL(4): install.ps1 missing the '%LOCALAPPDATA%\\JDownloader 2' candidate"; exit 1; }
 echo "PASS(4) windows settings write (issue #11)"
