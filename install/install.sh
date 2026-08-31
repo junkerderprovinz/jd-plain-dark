@@ -7,6 +7,24 @@ HERE="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$HERE/theme/cfg/laf/FlatDarkLaf.json"
 [ -f "$SRC" ] || { echo "ERROR: $SRC not found. Run this from the unzipped release folder." >&2; exit 1; }
 
+# JDownloader rewrites its cfg/*.json on shutdown, so anything written while it runs
+# is thrown away the moment the user closes it.
+if command -v pgrep >/dev/null 2>&1 && pgrep -f "JDownloader.jar" >/dev/null 2>&1; then
+  echo "WARNING: JDownloader seems to be running. It rewrites its settings when it closes," >&2
+  echo "         which would undo this install. Close JDownloader first." >&2
+  if [ -t 0 ]; then
+    printf "Continue anyway? [y/N]: "
+    read -r ANSWER
+    case "$ANSWER" in
+      y|Y|yes|YES|j|J|ja|JA) ;;
+      *) echo "Cancelled - nothing changed."; exit 1 ;;
+    esac
+  else
+    echo "Cancelled - nothing changed." >&2
+    exit 1
+  fi
+fi
+
 JD_DIR="${1:-}"
 if [ -z "$JD_DIR" ]; then
   for c in \
@@ -36,16 +54,22 @@ cp "$SRC" "$JD_DIR/cfg/laf/FlatDarkLaf.json"
 echo "Copied FlatDarkLaf.json -> $JD_DIR/cfg/laf/"
 
 GUI="$JD_DIR/cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings.json"
+LAF_SET=0
 if command -v python3 >/dev/null 2>&1; then
-  python3 - "$GUI" <<'PY'
+  # Non-fatal: a broken python3 must not abort the install half-done - fall through
+  # to the manual instruction below instead.
+  if python3 - "$GUI" <<'PY'
 import json, os, sys
 p = sys.argv[1]
 d = {}
 if os.path.exists(p):
     try:
-        d = json.load(open(p))
+        with open(p, encoding="utf-8") as fh:
+            d = json.load(fh)
     except Exception:
         d = {}
+if not isinstance(d, dict):
+    d = {}
 d["lookandfeeltheme"] = "FLATLAF_DARK"
 # Also switch off JDownloader's built-in advertisements so the GUI stays clean and
 # the download graph keeps its full height (the "Become premium user" banner
@@ -55,11 +79,22 @@ for k in ("bannerenabled", "statusbaraddpremiumbuttonvisible",
           "premiumalertetacolumnenabled", "premiumdisabledwarningflashenabled",
           "specialdealsenabled", "specialdealoboomdialogvisibleonstartup"):
     d[k] = False
-json.dump(d, open(p, "w"), indent=2)
+# Write via a temp file: an interrupted write must not leave JD an empty config.
+tmp = p + ".jdpd-tmp"
+with open(tmp, "w", encoding="utf-8") as fh:
+    json.dump(d, fh, indent=2)
+os.replace(tmp, p)
 PY
-  echo "Set lookandfeeltheme=FLATLAF_DARK + disabled built-in ads"
-else
-  echo "NOTE: python3 not found - open JDownloader and pick"
-  echo "      Settings > GUI > Look & Feel > FLATLAF_DARK once."
+  then
+    LAF_SET=1
+    echo "Set lookandfeeltheme=FLATLAF_DARK + disabled built-in ads"
+  fi
+fi
+if [ "$LAF_SET" -eq 0 ]; then
+  echo "NOTE: could not write the settings here - open JDownloader, go to"
+  echo "      Settings > Advanced Settings, search for 'lookandfeeltheme'"
+  echo "      and set it to FLATLAF_DARK once."
 fi
 echo "Done. Restart JDownloader."
+echo "Still light afterwards? Settings > Advanced Settings, search 'lookandfeeltheme',"
+echo "set FLATLAF_DARK. That switch lives in Advanced Settings only."

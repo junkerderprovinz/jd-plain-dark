@@ -86,24 +86,32 @@ red/amber for failed downloads and accounts).
 ### Option A — download & run the installer (recommended)
 
 1. Download `jd-plain-dark-vX.Y.Z.zip` from the [latest release](https://github.com/junkerderprovinz/jd-plain-dark/releases/latest) and unzip it.
-2. Run the installer for your OS:
+2. **Close JDownloader.** It rewrites its own config on shutdown, which would undo the
+   install.
+3. Run the installer for your OS:
    - **Windows:** double-click **`install/install.bat`** (recommended). It keeps the
      window open and, if it can't find JDownloader automatically, **asks you for the
      folder**. (Right-click `install/install.ps1` → *Run with PowerShell* also works.)
    - **Linux / macOS:** `sh install/install.sh "/path/to/JDownloader"`
      (the folder that contains `cfg`). Without an argument it auto-detects, and prompts
      if it can't.
-3. **Restart JDownloader.**
+4. **Start JDownloader.**
 
 The installer copies `FlatDarkLaf.json` into JD's `cfg/laf/` and selects the
-`FLATLAF_DARK` Look & Feel. On Windows PowerShell 5.1 it copies the file and then asks
-you to pick **Settings → GUI → Look & Feel → `FLATLAF_DARK`** once.
+`FLATLAF_DARK` Look & Feel.
 
 ### Option B — manual (one file)
 
-1. Copy `theme/cfg/laf/FlatDarkLaf.json` into your JDownloader folder under `cfg/laf/`.
-2. In JDownloader: **Settings → GUI → Look & Feel → `FLATLAF_DARK`**.
-3. **Restart JDownloader.**
+1. Close JDownloader.
+2. Copy `theme/cfg/laf/FlatDarkLaf.json` into your JDownloader folder under `cfg/laf/`.
+3. Start JDownloader, open **Settings → Advanced Settings**, search for
+   **`lookandfeeltheme`** and set it to **`FLATLAF_DARK`**.
+4. **Restart JDownloader.**
+
+> **Where is the theme switch?** JDownloader 2 has no *Look & Feel* entry in the normal
+> settings panels — it lives in **Settings → Advanced Settings** only, under
+> `lookandfeeltheme`. If that key offers no `FLATLAF_*` value, your JDownloader core is
+> too old: let it update (**Help → Check for Updates**) and try again.
 
 <br>
 
@@ -153,8 +161,9 @@ this entirely — the theme stays pure config, no agent required.
 
 ## 6. Uninstall
 
-Delete `cfg/laf/FlatDarkLaf.json` from your JDownloader folder and pick another Look & Feel
-under **Settings → GUI → Look & Feel**, then restart JDownloader.
+Close JDownloader, delete `cfg/laf/FlatDarkLaf.json` from your JDownloader folder, then start it
+again and set `lookandfeeltheme` back to `DEFAULT` under **Settings → Advanced Settings**.
+Restart JDownloader.
 
 <br>
 
