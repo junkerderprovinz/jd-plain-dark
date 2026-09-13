@@ -1,0 +1,8 @@
+# Blank issues stay enabled on purpose. A template that turns someone away is
+# worse than a report that arrives in the wrong shape, and the shape can be
+# asked for afterwards.
+blank_issues_enabled: true
+contact_links:
+  - name: Question rather than a bug
+    url: https://github.com/junkerderprovinz/jd-plain-dark/issues/new
+    about: Open a plain issue and ask. Questions are welcome here, they are not off topic.
