@@ -1,0 +1,41 @@
+name: Feature request
+description: Something is missing, or could work better
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The goal here is a tool that has every feature the job asks for, so a good
+        request is welcome rather than a bother. The more clearly you describe the
+        situation you are in, the better the answer tends to fit.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do
+      description: >
+        The situation, not the solution. A feature described as a problem usually
+        ends up better built than one described as a menu entry.
+      placeholder: I keep several repositories and I cannot tell at a glance which one a job last wrote to.
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What you have in mind
+      description: How you imagine it working. Rough is fine.
+
+  - type: textarea
+    id: today
+    attributes:
+      label: How you handle it today
+      description: The workaround, if you have one. It often says more than the request itself.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you send it
+      options:
+        - label: I searched the existing issues and did not find this one
+          required: true
