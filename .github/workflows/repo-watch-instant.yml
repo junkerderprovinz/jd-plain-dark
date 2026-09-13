@@ -46,6 +46,9 @@ jobs:
     # needs a push telling them they just did something themselves.
     if: github.event.sender.login != 'junkerderprovinz' && !endsWith(github.event.sender.login, '[bot]')
     runs-on: ubuntu-latest
+    # One API call. A job with no limit runs until GitHub's six-hour ceiling if
+    # the call ever hangs, and this file sits in dozens of repos.
+    timeout-minutes: 5
     steps:
       - name: Dispatch to repo-watch
         env:
