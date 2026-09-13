@@ -1,12 +1,13 @@
-# GitHub Sponsors, plus one custom link.
+# GitHub Sponsors, and nothing else.
 #
-# The Sponsor menu has no label field: GitHub prints a `custom` entry as the
-# bare URL, measured on syncthing/syncthing, whose menu reads
-# "https://syncthing.net/donations/". So the only place to say something is the
-# path, and docs/more-ways-to-support/ exists for exactly that - it is a
-# redirect to the donation page, not a second copy of it.
+# The custom link to the donation page is deliberately gone (jdp, 2026-09-13).
+# GitHub's Sponsor menu has no label field and prints a custom entry as the
+# bare URL, so the path had to carry the meaning; docs/more-ways-to-support/
+# existed for that and redirected onward, which landed people on
+# junkerderprovinz.github.io/junkerderprovinz/#ways. An anchor is not a label,
+# and a menu entry nobody can read before clicking it is worse than one entry
+# fewer.
 #
-# The commented-out platforms from GitHub's template are deliberately gone: a
-# file full of services nobody uses hides the lines that matter.
+# The commented-out platforms from GitHub's template are deliberately gone too:
+# a file full of services nobody uses hides the lines that matter.
 github: [junkerderprovinz]
-custom: ["https://junkerderprovinz.github.io/junkerderprovinz/more-ways-to-support/"]
