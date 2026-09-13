@@ -73,7 +73,13 @@ jobs:
           title="$ISSUE_TITLE"
           url="$ISSUE_URL"
           case "$EVENT_NAME" in
-            pull_request)
+            # Both names on purpose. The trigger above is pull_request_target
+            # (a fork PR gets no secrets under plain pull_request), and
+            # github.event_name carries that exact string — so a branch that
+            # only matches "pull_request" never fires, and the event falls
+            # through to the issue default, where number/title/url are all
+            # empty because a PR event has no github.event.issue.
+            pull_request|pull_request_target)
               kind="pr"; number="$PR_NUMBER"; title="$PR_TITLE"; url="$PR_URL" ;;
             issue_comment)
               kind="comment"; number="$ISSUE_NUMBER"; title="$ISSUE_TITLE"; url="$COMMENT_URL" ;;
