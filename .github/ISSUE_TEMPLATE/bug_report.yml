@@ -1,0 +1,74 @@
+name: Bug report
+description: Something behaves differently than it should
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. Every field below exists because leaving it out
+        has cost a round trip before. If you cannot fill one in, say so and send it
+        anyway, a report with a gap still beats no report.
+
+  - type: textarea
+    id: what-happens
+    attributes:
+      label: What happens
+      description: What you see, in your own words.
+      placeholder: The job starts, the progress bar reaches 40 percent and then the page goes blank.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-you-expected
+    attributes:
+      label: What you expected instead
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to get there
+      description: The shortest path you know of that reproduces it.
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. The error appears
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log output
+      description: >
+        The lines around the moment it went wrong. This is pasted into a code block
+        automatically, so no formatting is needed. Do check it for tokens, passwords
+        and paths you would rather not publish.
+      render: shell
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The version you are running, and how you installed it.
+      placeholder: 1.4.2, Unraid Community Applications
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Whatever fits. Operating system, browser, container runtime, hardware.
+      placeholder: Unraid 7.0.1, Chrome 141, NVIDIA GTX 1660
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you send it
+      options:
+        - label: I searched the existing issues and did not find this one
+          required: true
+        - label: I am on the current version, or I said above which one I am on
+          required: true
