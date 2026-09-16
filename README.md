@@ -55,7 +55,8 @@ If it has earned a place on your server or computer, toss a coin to your knight:
 6. [Uninstall](#6-uninstall)
 7. [Credits](#7-credits)
 8. [License](#8-license)
-9. [Support this project](#9-support-this-project)
+9. [How AI is used here](#9-how-ai-is-used-here)
+10. [Support this project](#10-support-this-project)
 
 <br>
 
@@ -206,7 +207,15 @@ JD Plain Dark is free software under the **GNU Affero General Public License v3.
 
 <br>
 
-## 9. Support this project
+## 9. How AI is used here
+
+One knight builds this, and AI is one of the tools I work with, the same way I work with an editor or a compiler. It helps me write code and documentation and it checks my work, and that saves me a good many evenings. It does not make the decisions, though. I read and understand everything before it ships, and if something here breaks, that is on me and not on the tool.
+
+You do not have to take my word for it. The code is open and every release note is written by hand. The issue tracker shows how problems actually get handled, including the ones I got wrong the first time. If you find something that is not right, open an issue and I will look at it.
+
+<br>
+
+## 10. Support this project
 
 If this saved you some squinting, you can
 
