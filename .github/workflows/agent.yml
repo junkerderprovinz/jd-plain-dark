@@ -1,8 +1,8 @@
 name: Event Scripter fix agent
 
-# Builds the OPTIONAL jd-es-fix.jar add-on (see docs/event-scripter-fix.md). The theme itself
-# is pure config and needs none of this; this only produces the small -javaagent that works
-# around JDownloader's Event Scripter script-editor bug on FlatLaf dark themes.
+# Builds the optional jd-es-fix.jar add-on (see docs/event-scripter-fix.md), a small
+# -javaagent that works around JDownloader's Event Scripter script-editor bug on FlatLaf
+# dark themes. The theme itself is pure config and needs none of this.
 
 on:
   push:

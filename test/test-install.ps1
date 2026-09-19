@@ -1,7 +1,6 @@
-# Behavioral tests for the Windows installer (install/install.ps1).
-# Runs on Windows PowerShell 5.1 and on PowerShell 7+ - the point of the suite is that
-# BOTH apply the settings. 5.1 used to skip them entirely (issue #11).
-# Paths use "/" so the suite also runs under pwsh on Linux.
+# Behavioural tests for the Windows installer (install/install.ps1). They run on Windows
+# PowerShell 5.1 and PowerShell 7+, and both have to apply the settings (#11). Paths use
+# "/" so the suite also runs under pwsh on Linux.
 $ErrorActionPreference = "Stop"
 
 $root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
@@ -27,10 +26,10 @@ function Read-Cfg($jd) {
 
 Write-Host "PowerShell $($PSVersionTable.PSVersion) - installer test"
 
-# --- Test 1: existing settings file - settings applied, other keys kept ---
-# The pre-existing value carries a non-ASCII char, built from its code point so this
-# .ps1 stays pure ASCII (5.1 decodes a BOM-less UTF-8 script as ANSI). JD writes
-# BOM-less UTF-8, and a path like "Musik-B<uml>cher" must survive the round-trip.
+# Test 1: an existing settings file gets the settings and keeps its other keys. The
+# existing value carries a non-ASCII char, built from its code point so this .ps1 stays
+# pure ASCII (5.1 decodes a BOM-less UTF-8 script as ANSI). JD writes BOM-less UTF-8, and
+# a path like "Musik-B<uml>cher" has to survive the round trip.
 $uml = [string][char]0x00FC
 $jd = New-FakeJd ('{"foo":"b' + $uml + 'r"}')
 try {
@@ -47,7 +46,7 @@ try {
   Check "1e writes BOM-free UTF-8" (-not $bom) "UTF-8 BOM present - JD's JSON parser chokes on it"
 } finally { Remove-Item -Recurse -Force $jd -ErrorAction SilentlyContinue }
 
-# --- Test 2: no settings file yet (fresh JDownloader) ---
+# Test 2: a fresh JDownloader without a settings file.
 $jd = New-FakeJd $null
 try {
   & $ps1 -JdDir $jd -NoPause | Out-Null
@@ -57,7 +56,7 @@ try {
   }
 } finally { Remove-Item -Recurse -Force $jd -ErrorAction SilentlyContinue }
 
-# --- Test 3: a corrupt settings file must not abort the install ---
+# Test 3: a corrupt settings file does not abort the install.
 $jd = New-FakeJd 'not json at all {{'
 try {
   & $ps1 -JdDir $jd -NoPause | Out-Null
@@ -66,14 +65,14 @@ try {
   Check "3a recovers from a corrupt settings file" ($laf -eq "FLATLAF_DARK") "corrupt file not replaced"
 } finally { Remove-Item -Recurse -Force $jd -ErrorAction SilentlyContinue }
 
-# --- Test 4: no leftover temp file from the atomic write ---
+# Test 4: the atomic write leaves no temp file behind.
 $jd = New-FakeJd '{"foo":"bar"}'
 try {
   & $ps1 -JdDir $jd -NoPause | Out-Null
   Check "4a cleans up the temp file" (-not (Test-Path (Join-Path $jd "cfg/$gui.jdpd-tmp"))) "left a .jdpd-tmp file behind"
 } finally { Remove-Item -Recurse -Force $jd -ErrorAction SilentlyContinue }
 
-# --- Test 5: nothing may point at the GUI menu that JDownloader 2 does not have (#11) ---
+# Test 5: nothing points at a GUI menu JDownloader 2 does not have (#11).
 foreach ($t in @($ps1, (Join-Path $root "install/install.sh"), (Join-Path $root "README.md"))) {
   $c = [IO.File]::ReadAllText($t)
   Check "5 $(Split-Path -Leaf $t) has no 'GUI > Look & Feel' path" `

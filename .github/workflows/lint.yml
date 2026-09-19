@@ -45,8 +45,8 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      # Windows PowerShell 5.1 is what install.bat launches on a stock Windows box -
-      # the environment that silently skipped the settings write (issue #11).
+      # install.bat launches Windows PowerShell 5.1 on a stock Windows box, the
+      # environment of #11.
       - name: Behavioral test of install.ps1 (Windows PowerShell 5.1)
         shell: powershell
         run: .\test\test-install.ps1

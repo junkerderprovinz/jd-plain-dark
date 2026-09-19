@@ -1,6 +1,5 @@
-# Blank issues stay enabled on purpose. A template that turns someone away is
-# worse than a report that arrives in the wrong shape, and the shape can be
-# asked for afterwards.
+# A template that turns someone away is worse than a report in the wrong shape;
+# the shape can be asked for afterwards.
 blank_issues_enabled: true
 contact_links:
   - name: Question rather than a bug

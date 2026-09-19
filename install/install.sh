@@ -56,8 +56,8 @@ echo "Copied FlatDarkLaf.json -> $JD_DIR/cfg/laf/"
 GUI="$JD_DIR/cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings.json"
 LAF_SET=0
 if command -v python3 >/dev/null 2>&1; then
-  # Non-fatal: a broken python3 must not abort the install half-done - fall through
-  # to the manual instruction below instead.
+  # A broken python3 must not abort the install half done; the manual instruction
+  # below covers that case.
   if python3 - "$GUI" <<'PY'
 import json, os, sys
 p = sys.argv[1]
@@ -71,9 +71,8 @@ if os.path.exists(p):
 if not isinstance(d, dict):
     d = {}
 d["lookandfeeltheme"] = "FLATLAF_DARK"
-# Also switch off JDownloader's built-in advertisements so the GUI stays clean and
-# the download graph keeps its full height (the "Become premium user" banner
-# otherwise squeezes it). Ads only - Donate and functional settings untouched.
+# JDownloader's built-in ads go too, so the "Become premium user" banner stops
+# squeezing the download graph. Donate and the functional settings stay as they are.
 for k in ("bannerenabled", "statusbaraddpremiumbuttonvisible",
           "premiumalertspeedcolumnenabled", "premiumalerttaskcolumnenabled",
           "premiumalertetacolumnenabled", "premiumdisabledwarningflashenabled",

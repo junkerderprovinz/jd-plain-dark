@@ -1,19 +1,17 @@
 /**
- * Generates the JD Plain Dark README banners (theme-adaptive pair) in the JDownloader
- * main-repo house style:
- *   banner.svg / .png       : light 1600x500 - the JDownloader globe on the LEFT, then the
- *                             "JD PLAIN DARK" wordmark + a cheeky claim.
- *   banner-dark.svg / .png  : same layout on GitHub-dark #0d1117, light text + lightened globe.
- * The README serves the pair via <picture> (prefers-color-scheme).
+ * Generates the JD Plain Dark README banners, a 1600x500 pair the README picks between
+ * with <picture> and prefers-color-scheme:
+ *   banner.svg / .png       : light, the JDownloader globe on the left, then the
+ *                             "JD PLAIN DARK" wordmark and the claim.
+ *   banner-dark.svg / .png  : the same on GitHub-dark #0d1117, light text, lightened globe.
  *
- * Wordmark: the JDownloader treatment applied to the theme name - the signature giant Myriad
- * Pro SEMIBOLD "J" (with the crossbar across its top), reused VERBATIM from the JDOWNLOADER
- * mark, then the rest of the name in Myriad Pro BLACK caps. So the leading "JD" reads exactly
- * like the "JD" in JDOWNLOADER. Rendered to VECTOR PATHS (opentype.js); letters are FLAT
- * (#161616 light / light on dark). The claim uses Lato (OFL).
+ * The wordmark gives the theme name JDownloader's treatment: the giant Myriad Pro Semibold
+ * "J" with the crossbar across its top, taken verbatim from the JDOWNLOADER mark, then the
+ * rest in Myriad Pro Black caps, so the leading "JD" reads like the one in JDOWNLOADER. It is
+ * rendered to flat vector paths with opentype.js. The claim uses Lato (OFL).
  *
- * The Myriad Pro OTFs live at .github/assets/_fonts/ (gitignored - NEVER committed; only the
- * glyph outlines land in the SVG). Nominative use echoing the product's own mark.
+ * The Myriad Pro OTFs live in the gitignored .github/assets/_fonts/; only the glyph outlines
+ * land in the SVG, as a nominative echo of the product's own mark.
  *
  * Deps: `npm i -g @resvg/resvg-js opentype.js`. Run: node .github/assets/gen-banner.mjs
  */
@@ -30,22 +28,19 @@ const opentype = require(`${gRoot}/opentype.js`);
 const { Resvg } = require(`${gRoot}/@resvg/resvg-js`);
 const __dir = dirname(fileURLToPath(import.meta.url));
 
-// ---- content -----------------------------------------------------------------
-const NAME = "JD PLAIN DARK";                                  // rendered ALL CAPS, JD-wordmark style
+const NAME = "JD PLAIN DARK";                                  // caps, like the JD wordmark
 const CLAIM = "Dark across every panel.";
 const THEMES = [
   { suffix: "",      bg: "#ffffff", name: "#1f2328", claim: "#5a5d5e", darkGlobe: false },
   { suffix: "-dark", bg: "#0d1117", name: "#e6edf3", claim: "#9aa4ad", darkGlobe: true  },
 ];
 const W = 1600, H = 500;
-const LH = 470, LW = LH;          // globe on the left (square) — "recht gross" logo (~400px ink, jdp-approved)
+const LH = 470, LW = LH;          // the square globe box, about 400px of ink
 const gap = 70;                   // logo-to-text gap (house standard)
 const claimSize = 44;
-const WM_H = 214;                 // nominal wordmark height in the banner
-const MAX_GROUP = W - 150;
 
-// Source wordmark geometry (JDownloader "Element 1.svg"; source box height 326.1). The J +
-// crossbar + the caps baseline are reused VERBATIM so the leading "JD" matches JDOWNLOADER.
+// Source wordmark geometry (JDownloader "Element 1.svg", box height 326.1). The J, the
+// crossbar and the caps baseline are reused verbatim so the leading "JD" matches JDOWNLOADER.
 const SRC_H = 326.1;
 const CROSSBAR = { x: 27.78, y: 48.9, w: 70.62, h: 24.14 };
 const J_RUN  = { text: "J", x: 0, y: 251.1, size: 300 };        // giant Semibold J
@@ -61,9 +56,9 @@ if (!existsSync(latoFile)) {
 }
 const lato = opentype.parse(readFileSync(latoFile).buffer);
 
-// Render a text run to a path at (x, baseline) with optional letter-spacing (em). Returns
-// { d, endX }. Reads glyph.path.commands (read-only) so a REPEATED letter doesn't come back NaN
-// (opentype's Glyph.getPath() mutates a reused glyph object).
+// Renders a text run to a path at (x, baseline) with optional letter-spacing (em) and returns
+// { d, endX }. It reads glyph.path.commands because opentype's Glyph.getPath() mutates a
+// reused glyph object, which turns a repeated letter into NaN.
 function runPath(font, text, x, baseline, size, lsEm = 0) {
   const s = size / font.unitsPerEm, ls = lsEm * size, n = (v) => v.toFixed(2);
   let d = "", cx = x;
@@ -87,7 +82,7 @@ function runWidth(font, text, size) {
   return w;
 }
 
-// Build the wordmark in the SOURCE coordinate system: giant J + crossbar + Black-caps remainder.
+// The wordmark is built in the source coordinate system: giant J, crossbar, Black caps.
 const jRes = runPath(semi, NAME[0], J_RUN.x, J_RUN.y, J_RUN.size);
 const restRes = runPath(black, NAME.slice(1), REST.x, REST.y, REST.size, REST.ls);
 const wordmarkPath = jRes.d + restRes.d;
@@ -95,15 +90,8 @@ const crossbarPath = `M${CROSSBAR.x} ${CROSSBAR.y} h${CROSSBAR.w} v${CROSSBAR.h}
 if ((wordmarkPath + crossbarPath).includes("NaN")) throw new Error("NaN path");
 const SRC_W = restRes.endX;                     // actual right edge of the wordmark
 
-// Scale the wordmark to WM_H and lay out globe + wordmark + claim (fit to MAX_GROUP).
-// FIXED layout, matching the user's hand-refined banner (viewBox 1600x500): the globe box sits at a
-// fixed left so its circle centre lands at (293, 242); the wordmark starts at a fixed x=522 (its
-// crossbar aligns to the user's x), 214px tall; the claim is centred under the wordmark. Names
-// shorter than "JD HIGHLIGHTER" simply leave more room on the right — the same slightly
-// left-weighted balance the user chose. (LW/gap/MAX_GROUP now only bound the safety downscale.)
-// House banner standard: logo left-anchored (165), wordmark to its right, the
-// [wordmark + claim] block vertically centred; claim left-aligned with the
-// wordmark and pulled close (gap 8). Sized + placed by the wordmark's real ink bbox.
+// The globe is left-anchored at 165 with the wordmark to its right, and the wordmark and
+// claim block is centred vertically, sized and placed by the wordmark's real ink bbox.
 const startX = 165, LY = (H - LH) / 2;
 const textX = startX + LW + gap;
 const WM_TARGET = 150;                                     // visual wordmark height (~ the 132px text names)
@@ -122,8 +110,8 @@ const top = H / 2 - blockH / 2;
 const wmX = textX - bb.x * s2;                             // left-anchor the wordmark's ink at textX
 const wmTop = top - bb.y * s2;                             // wordmark visible top -> `top`
 const claimBaseline = top + wmH + NAME_CLAIM_GAP + claimAsc;
-// Claim centred on the MIDDLE of the wordmark (jdp: the giant J makes a left-aligned
-// claim start too far left) - the claim begins further right, under the name's centre.
+// The claim is centred under the wordmark, because the giant J would make a left-aligned
+// claim start too far left.
 const claimStartX = textX + (wmWFit - runWidth(lato, CLAIM, claimSize)) / 2;
 const claimPath = runPath(lato, CLAIM, claimStartX, claimBaseline, claimSize).d;
 

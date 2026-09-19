@@ -6,7 +6,7 @@ TMP="$(mktemp -d)"
 TMP2="$(mktemp -d)"
 trap 'rm -rf "$TMP" "$TMP2"' EXIT
 
-# --- Test 1: explicit path argument ---
+# Test 1: an explicit path argument.
 mkdir -p "$TMP/cfg"
 printf '{"foo":"bar"}' > "$TMP/cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings.json"
 sh "$ROOT/install/install.sh" "$TMP"
@@ -19,13 +19,14 @@ grep -q '"bannerenabled": false' "$TMP/cfg/org.jdownloader.settings.GraphicalUse
   || { echo "FAIL(1): built-in ads not disabled (bannerenabled)"; exit 1; }
 echo "PASS(1) explicit path"
 
-# --- Test 2: auto-detection (no argument), via a $HOME candidate ---
+# Test 2: auto-detection without an argument, through a $HOME candidate.
 mkdir -p "$TMP2/JDownloader/cfg"
 HOME="$TMP2" sh "$ROOT/install/install.sh" </dev/null
 test -f "$TMP2/JDownloader/cfg/laf/FlatDarkLaf.json" || { echo "FAIL(2): auto-detect didn't copy"; exit 1; }
 echo "PASS(2) auto-detect"
 
-# --- Test 3: Windows installer regression guards (the original bug) ---
+# Test 3: the Windows installer knows the plain Program Files folder and asks when
+# detection fails.
 PS1="$ROOT/install/install.ps1"
 grep -qF '"C:\Program Files\JDownloader"' "$PS1" \
   || { echo "FAIL(3): install.ps1 missing 'C:\\Program Files\\JDownloader' (no 2.0 suffix) candidate"; exit 1; }
@@ -33,7 +34,7 @@ grep -q 'Read-Host' "$PS1" \
   || { echo "FAIL(3): install.ps1 missing interactive fallback (Read-Host)"; exit 1; }
 echo "PASS(3) windows installer guards"
 
-# --- Test 4: issue #11 - the settings write must not be gated on the PS version ---
+# Test 4: the settings write does not depend on the PowerShell version (#11).
 if grep -q 'PSVersion' "$PS1"; then
   echo "FAIL(4): install.ps1 still gates the settings write on the PowerShell version"; exit 1
 fi
@@ -50,7 +51,7 @@ grep -qF '$env:LOCALAPPDATA\JDownloader 2"' "$PS1" \
   || { echo "FAIL(4): install.ps1 missing the '%LOCALAPPDATA%\\JDownloader 2' candidate"; exit 1; }
 echo "PASS(4) windows settings write (issue #11)"
 
-# --- Test 5: issue #11 - nothing may point at the GUI menu JDownloader 2 has not ---
+# Test 5: nothing points at a GUI menu JDownloader 2 does not have (#11).
 for f in "$ROOT/README.md" "$ROOT/install/install.sh" "$PS1"; do
   if grep -qE 'GUI[[:space:]]*(>|&gt;|→|->)[[:space:]]*Look' "$f"; then
     echo "FAIL(5): $f points at 'Settings > GUI > Look & Feel', which JDownloader 2 has not"

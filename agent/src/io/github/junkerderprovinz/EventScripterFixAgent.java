@@ -25,9 +25,9 @@ import org.objectweb.asm.Opcodes;
  *      javax.script JavaScript engine since Nashorn was removed in Java 15) while installing the
  *      code-editor kit.
  *
- * This agent guards both at the root with a load-time bytecode transform. Nothing else is touched;
- * it is fail-safe (any transform error, or a future upstream rename, leaves the original bytes
- * unchanged). It has NO effect unless you run one of the affected code paths under FlatLaf.
+ * This agent guards both at the root with a load-time bytecode transform and touches nothing
+ * else. Any transform error, or a future upstream rename, leaves the original bytes unchanged,
+ * and it has no effect unless one of the affected code paths runs under FlatLaf.
  *
  * Desktop use: add it to JDownloader's JVM, e.g. set the environment variable
  *   JAVA_TOOL_OPTIONS=-javaagent:/path/to/jd-es-fix.jar

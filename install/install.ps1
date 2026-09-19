@@ -61,10 +61,10 @@ New-Item -ItemType Directory -Force -Path $lafDir | Out-Null
 Copy-Item $src (Join-Path $lafDir "FlatDarkLaf.json") -Force
 Write-Host "Copied FlatDarkLaf.json -> $lafDir"
 
-# Apply the settings. This runs on Windows PowerShell 5.1 as well as PowerShell 7+:
-# no ConvertFrom-Json -AsHashtable (7+ only), and the file is read AND written as
-# BOM-free UTF-8 - 5.1 would otherwise decode JD's config with the ANSI codepage and
-# mangle every non-ASCII value, and JD's JSON parser rejects a BOM.
+# This has to run on Windows PowerShell 5.1 as well as 7+: no ConvertFrom-Json
+# -AsHashtable, which is 7+ only, and the file is read and written as BOM-free UTF-8,
+# since 5.1 would decode JD's config with the ANSI codepage and mangle every non-ASCII
+# value, and JD's JSON parser rejects a BOM.
 $gui = Join-Path $JdDir "cfg\org.jdownloader.settings.GraphicalUserInterfaceSettings.json"
 $d = $null
 if (Test-Path $gui) {
@@ -74,9 +74,8 @@ if ($null -eq $d -or $d -isnot [pscustomobject]) { $d = New-Object PSObject }
 
 $settings = [ordered]@{
   "lookandfeeltheme" = "FLATLAF_DARK"
-  # Also switch off JDownloader's built-in advertisements so the GUI stays clean
-  # and the download graph keeps its full height (the "Become premium user" banner
-  # otherwise squeezes it). Ads only - Donate and functional settings untouched.
+  # JDownloader's built-in ads go too, so the "Become premium user" banner stops
+  # squeezing the download graph. Donate and the functional settings stay as they are.
   "bannerenabled" = $false
   "statusbaraddpremiumbuttonvisible" = $false
   "premiumalertspeedcolumnenabled" = $false
