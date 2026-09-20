@@ -17,10 +17,10 @@
 <br>
 
 <p align="center">
-A fully dark <b>JD Plain</b> theme for <b>JDownloader 2</b> — a monochrome IBM Carbon (#161616)
+A fully dark <b>JD Plain</b> theme for <b>JDownloader 2</b>: a monochrome IBM Carbon (#161616)
 dark across the <i>whole</i> interface (download list, link grabber <b>and</b> settings, not just
 the menu bar). It uses JDownloader's own colour configuration, so there is <b>no patched JAR and
-no Java agent</b> — just one config file.
+no Java agent</b>, just one config file.
 </p>
 
 <br>
@@ -63,8 +63,8 @@ If it has earned a place on your server or computer, toss a coin to your knight:
 ## 1. What it does
 
 JDownloader 2 ships no proper dark mode: enable a dark Look & Feel and the *chrome*
-(menu bar, toolbar, headers, scrollbars) goes dark, but JD's custom content areas — the
-**download list**, the **link grabber** and the **Advanced Settings** table — stay light.
+(menu bar, toolbar, headers, scrollbars) goes dark, but JD's custom content areas (the
+**download list**, the **link grabber** and the **Advanced Settings** table) stay light.
 
 **JD Plain Dark** fixes that. It is the **JD Plain** flat icon set rendered in a neutral
 IBM Carbon (`#161616`) dark, applied through the colour keys JDownloader reads itself, so the
@@ -72,8 +72,8 @@ IBM Carbon (`#161616`) dark, applied through the colour keys JDownloader reads i
 red/amber for failed downloads and accounts).
 
 - Works on **Windows, macOS and Linux** (it is just JD config).
-- **No patched `flatlaf.jar`, no Java agent** — survives JDownloader self-updates.
-- **Ad-free too:** the installer also switches off JDownloader's built-in advertisements (the *"Become premium user"* banner, the premium-alert column nags, special-deal popups), so the GUI stays clean and the download graph keeps its full height. Ads only — the Donate button and all functional settings are untouched.
+- **No patched `flatlaf.jar`, no Java agent:** survives JDownloader self-updates.
+- **Ad-free too:** the installer also switches off JDownloader's built-in advertisements (the *"Become premium user"* banner, the premium-alert column nags, special-deal popups), so the GUI stays clean and the download graph keeps its full height. Ads only. The Donate button and all functional settings are untouched.
 - One file to install, one file to remove.
 
 <br>
@@ -81,16 +81,16 @@ red/amber for failed downloads and accounts).
 ## 2. Screenshots
 
 <p align="center">
-  <img src="docs/screenshots/preview.png" alt="JD Plain Dark — download list, context menu and settings in monochrome Carbon #161616" width="92%">
+  <img src="docs/screenshots/preview.png" alt="JD Plain Dark: download list, context menu and settings in monochrome Carbon #161616" width="92%">
 </p>
 
-<p align="center"><sub>The whole UI in monochrome IBM&nbsp;Carbon <code>#161616</code> — download list, context menu and settings.</sub></p>
+<p align="center"><sub>The whole UI in monochrome IBM&nbsp;Carbon <code>#161616</code>: download list, context menu and settings.</sub></p>
 
 <br>
 
 ## 3. Install
 
-### Option A — download & run the installer (recommended)
+### Option A: download & run the installer (recommended)
 
 1. Download `jd-plain-dark-vX.Y.Z.zip` from the [latest release](https://github.com/junkerderprovinz/jd-plain-dark/releases/latest) and unzip it.
 2. **Close JDownloader.** It rewrites its own config on shutdown, which would undo the
@@ -107,7 +107,7 @@ red/amber for failed downloads and accounts).
 The installer copies `FlatDarkLaf.json` into JD's `cfg/laf/` and selects the
 `FLATLAF_DARK` Look & Feel.
 
-### Option B — manual (one file)
+### Option B: manual (one file)
 
 1. Close JDownloader.
 2. Copy `theme/cfg/laf/FlatDarkLaf.json` into your JDownloader folder under `cfg/laf/`.
@@ -116,7 +116,7 @@ The installer copies `FlatDarkLaf.json` into JD's `cfg/laf/` and selects the
 4. **Restart JDownloader.**
 
 > **Where is the theme switch?** JDownloader 2 has no *Look & Feel* entry in the normal
-> settings panels — it lives in **Settings → Advanced Settings** only, under
+> settings panels. It lives in **Settings → Advanced Settings** only, under
 > `lookandfeeltheme`. If that key offers no `FLATLAF_*` value, your JDownloader core is
 > too old: let it update (**Help → Check for Updates**) and try again.
 
@@ -124,7 +124,7 @@ The installer copies `FlatDarkLaf.json` into JD's `cfg/laf/` and selects the
 
 Up to and including v1.2.1 the Windows installer only applied the settings when it happened
 to run on PowerShell 7. `install.bat` starts Windows PowerShell 5.1 on a stock machine, so
-for most people it copied the theme file, printed `Done`, and changed nothing else — the UI
+for most people it copied the theme file, printed `Done`, and changed nothing else. The UI
 stayed light and the note it printed pointed at a menu JDownloader does not have
 ([#11](https://github.com/junkerderprovinz/jd-plain-dark/issues/11)).
 
@@ -138,18 +138,18 @@ affected.
 ## 4. How it works
 
 JDownloader stores per-Look-&-Feel colours in `cfg/laf/FlatDarkLaf.json` using `colorfor*`
-keys (e.g. `colorfortablepackagerowbackground`). JD's own renderer reads these — including the
-ExtTable behind the download list, link grabber and settings — so setting them dark colours the
+keys (e.g. `colorfortablepackagerowbackground`). JD's own renderer reads these, including the
+ExtTable behind the download list, link grabber and settings, so setting them dark colours the
 content areas too, not only the Swing chrome. `iconsetid: flat` selects the JD Plain icons.
 The same file also passes through a handful of raw FlatLaf UIManager keys where JD has no
-`colorfor*` equivalent — e.g. `ProgressBar.selectionForeground`, so the percentage text stays
+`colorfor*` equivalent, e.g. `ProgressBar.selectionForeground`, so the percentage text stays
 readable against the light "Finished" fill instead of inheriting FlatLaf's own (too-light)
 default.
 
 The installer also writes two things into `cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings.json`:
 `lookandfeeltheme: FLATLAF_DARK` (so the dark L&F is active) and a handful of `false` flags that
 switch off JDownloader's built-in advertisements (`bannerenabled`, the `premiumalert*` columns,
-`specialdeals*`, the status-bar premium button). Ads only — nothing functional is changed.
+`specialdeals*`, the status-bar premium button). Ads only. Nothing functional is changed.
 
 That is the whole trick: no bytecode patching, no `-javaagent`. Because it is plain
 configuration, JD's automatic updates don't break it.
@@ -161,7 +161,7 @@ configuration, JD's automatic updates don't break it.
 The theme is config-only and needs nothing else. This section is **only** for people who use
 the **Event Scripter** extension and hit a separate JDownloader bug: on any FlatLaf dark Look &
 Feel (this theme *or* JD's own `flatlaf-themes` dark), the Event Scripter **script editor won't
-open** — clicking **edit** or **Add** does nothing. That is a JDownloader bug, not a theme bug
+open**. Clicking **edit** or **Add** does nothing. That is a JDownloader bug, not a theme bug
 (the stock dark theme triggers it too), so fixing it needs a small optional add-on rather than a
 config key.
 
@@ -175,7 +175,7 @@ JAVA_TOOL_OPTIONS=-javaagent:/full/path/to/jd-es-fix.jar
 
 Full instructions (per-OS setup, building it yourself, and what it patches) are in
 [docs/event-scripter-fix.md](docs/event-scripter-fix.md). If you don't use Event Scripter, ignore
-this entirely — the theme stays pure config, no agent required.
+this entirely. The theme stays pure config and needs no agent.
 
 <br>
 
@@ -189,8 +189,8 @@ Restart JDownloader.
 
 ## 7. Credits
 
-The technique — overriding JDownloader's native `colorfor*` colour config to reach the content
-areas — was inspired by the community **Material Darker** theme. The colours here are our own
+The technique of overriding JDownloader's native `colorfor*` colour config to reach the content
+areas was inspired by the community **Material Darker** theme. The colours here are our own
 (IBM Carbon monochrome) and no Material Darker code or assets are included. Licensed MIT.
 
 Derived from the dark theme built into the [JDownloader-for-Unraid container](https://github.com/junkerderprovinz/jdownloader).
@@ -216,8 +216,6 @@ You do not have to take my word for it. The code is open and every release note 
 <br>
 
 ## 10. Support this project
-
-If this saved you some squinting, you can
 
 Questions, bugs, ideas or feature requests? Please [open a GitHub issue](https://github.com/junkerderprovinz/jd-plain-dark/issues).
 

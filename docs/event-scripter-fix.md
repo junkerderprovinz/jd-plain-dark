@@ -1,7 +1,7 @@
 # Event Scripter fix (optional add-on)
 
 **You only need this if you use the Event Scripter extension and its script editor will not
-open on a dark theme. The JD Plain Dark theme itself needs none of this — it stays pure config.**
+open on a dark theme. The JD Plain Dark theme itself needs none of this. It stays pure config.**
 
 ## The problem
 
@@ -70,10 +70,10 @@ the script editor normally.
 
 ## What it patches
 
-- `org.appwork.swing.components.circlebar.BasicCircleProgressBarUI` — rebinds/null-guards the
+- `org.appwork.swing.components.circlebar.BasicCircleProgressBarUI`: rebinds/null-guards the
   `circleBar` field in `getPreferredSize`/`paint`/`update` (FlatLaf's second `updateUI` pass
   leaves it null on the transient progress-circle widget).
-- `jsyntaxpane.actions.ScriptAction` — no-ops `install`/`getScriptFromURL` when the static
+- `jsyntaxpane.actions.ScriptAction`: no-ops `install`/`getScriptFromURL` when the static
   `javax.script.ScriptEngine` is null (there is no built-in JavaScript engine since Nashorn was
   removed in Java 15).
 

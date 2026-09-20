@@ -1,6 +1,6 @@
 # theme/
 
-`cfg/laf/FlatDarkLaf.json` is the JD Plain Dark palette — IBM Carbon monochrome
+`cfg/laf/FlatDarkLaf.json` is the JD Plain Dark palette: IBM Carbon monochrome
 (`#161616` base) written into the keys JDownloader reads itself (`colorfor*`),
 so the download list, link grabber and settings table all go dark, not just the
 window chrome.
