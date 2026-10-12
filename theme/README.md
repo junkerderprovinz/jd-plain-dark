@@ -9,6 +9,9 @@ window chrome.
 
 This palette mirrors the container image
 [`junkerderprovinz/jdownloader`](https://github.com/junkerderprovinz/jdownloader)
-→ `rootfs/usr/local/bin/jdownloader-theme.sh` (the `FlatDarkLaf` branch),
-**minus the kiosk-only `windowdecorationenabled: false` key** (desktop users need
-a normal title bar). Keep the two in sync when colours change.
+→ `rootfs/usr/local/bin/jdownloader-theme.sh` (the `FlatDarkLaf` branch). Two keys
+differ on purpose. `windowdecorationenabled` is left out here: the container sets it
+to `false` for its kiosk window, and the Windows installer sets it to `true` so the
+title bar goes dark. `progresscolumntextposition` is `RIGHT` here, because the
+desktop has no agent to make the percentage readable on top of the bar. Keep the
+colours in sync with the container.
