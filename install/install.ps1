@@ -56,23 +56,37 @@ while (-not $JdDir -or -not (Test-Path (Join-Path $JdDir "cfg"))) {
   if (-not $JdDir) { Write-Host "Cancelled - nothing changed."; Hold; exit 1 }
 }
 
-$lafDir = Join-Path $JdDir "cfg\laf"
-New-Item -ItemType Directory -Force -Path $lafDir | Out-Null
-Copy-Item $src (Join-Path $lafDir "FlatDarkLaf.json") -Force
-Write-Host "Copied FlatDarkLaf.json -> $lafDir"
-
 # This has to run on Windows PowerShell 5.1 as well as 7+: no ConvertFrom-Json
 # -AsHashtable, which is 7+ only, and the file is read and written as BOM-free UTF-8,
 # since 5.1 would decode JD's config with the ANSI codepage and mangle every non-ASCII
 # value, and JD's JSON parser rejects a BOM.
-$gui = Join-Path $JdDir "cfg\org.jdownloader.settings.GraphicalUserInterfaceSettings.json"
-$d = $null
-if (Test-Path $gui) {
-  try { $d = [IO.File]::ReadAllText($gui, [Text.Encoding]::UTF8) | ConvertFrom-Json } catch { $d = $null }
+function Set-JsonKeys($path, $settings) {
+  $d = $null
+  if (Test-Path $path) {
+    try { $d = [IO.File]::ReadAllText($path, [Text.Encoding]::UTF8) | ConvertFrom-Json } catch { $d = $null }
+  }
+  if ($null -eq $d -or $d -isnot [pscustomobject]) { $d = New-Object PSObject }
+  foreach ($k in $settings.Keys) {
+    $d | Add-Member -NotePropertyName $k -NotePropertyValue $settings[$k] -Force
+  }
+  # Write via a temp file so an interrupted write can't leave JD an empty config.
+  $tmp = "$path.jdpd-tmp"
+  [IO.File]::WriteAllText($tmp, ($d | ConvertTo-Json -Depth 20), (New-Object System.Text.UTF8Encoding($false)))
+  Move-Item -LiteralPath $tmp -Destination $path -Force
 }
-if ($null -eq $d -or $d -isnot [pscustomobject]) { $d = New-Object PSObject }
 
-$settings = [ordered]@{
+$lafDir = Join-Path $JdDir "cfg\laf"
+New-Item -ItemType Directory -Force -Path $lafDir | Out-Null
+$laf = Join-Path $lafDir "FlatDarkLaf.json"
+Copy-Item $src $laf -Force
+# Without this JD keeps the native Windows title bar, which ignores the theme and stays
+# light. Only the Windows installer sets it: on Linux it would replace the window
+# manager's own decorations.
+Set-JsonKeys $laf @{ "windowdecorationenabled" = $true }
+Write-Host "Copied FlatDarkLaf.json -> $lafDir"
+
+$gui = Join-Path $JdDir "cfg\org.jdownloader.settings.GraphicalUserInterfaceSettings.json"
+Set-JsonKeys $gui ([ordered]@{
   "lookandfeeltheme" = "FLATLAF_DARK"
   # JDownloader's built-in ads go too, so the "Become premium user" banner stops
   # squeezing the download graph. Donate and the functional settings stay as they are.
@@ -84,15 +98,7 @@ $settings = [ordered]@{
   "premiumdisabledwarningflashenabled" = $false
   "specialdealsenabled" = $false
   "specialdealoboomdialogvisibleonstartup" = $false
-}
-foreach ($k in $settings.Keys) {
-  $d | Add-Member -NotePropertyName $k -NotePropertyValue $settings[$k] -Force
-}
-
-# Write via a temp file so an interrupted write can't leave JD an empty config.
-$tmp = "$gui.jdpd-tmp"
-[IO.File]::WriteAllText($tmp, ($d | ConvertTo-Json -Depth 20), (New-Object System.Text.UTF8Encoding($false)))
-Move-Item -LiteralPath $tmp -Destination $gui -Force
+})
 Write-Host "Set lookandfeeltheme=FLATLAF_DARK + disabled built-in ads"
 
 Write-Host "Done. Restart JDownloader."

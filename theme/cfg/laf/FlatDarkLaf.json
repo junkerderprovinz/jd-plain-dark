@@ -37,5 +37,5 @@
   "colorforscrollbarsmouseoverstate": "#ff525252",
   "tablealternaterowhighlightenabled": false,
   "textantialiasenabled": true,
-  "ProgressBar.selectionForeground": "#ff161616"
+  "progresscolumntextposition": "RIGHT"
 }

@@ -111,9 +111,11 @@ The installer copies `FlatDarkLaf.json` into JD's `cfg/laf/` and selects the
 
 1. Close JDownloader.
 2. Copy `theme/cfg/laf/FlatDarkLaf.json` into your JDownloader folder under `cfg/laf/`.
-3. Start JDownloader, open **Settings → Advanced Settings**, search for
+3. On Windows, open the copied file and add `"windowdecorationenabled": true` so the title
+   bar turns dark as well.
+4. Start JDownloader, open **Settings → Advanced Settings**, search for
    **`lookandfeeltheme`** and set it to **`FLATLAF_DARK`**.
-4. **Restart JDownloader.**
+5. **Restart JDownloader.**
 
 > **Where is the theme switch?** JDownloader 2 has no *Look & Feel* entry in the normal
 > settings panels. It lives in **Settings → Advanced Settings** only, under
@@ -141,10 +143,14 @@ JDownloader stores per-Look-&-Feel colours in `cfg/laf/FlatDarkLaf.json` using `
 keys (e.g. `colorfortablepackagerowbackground`). JD's own renderer reads these, including the
 ExtTable behind the download list, link grabber and settings, so setting them dark colours the
 content areas too, not only the Swing chrome. `iconsetid: flat` selects the JD Plain icons.
-The same file also passes through a handful of raw FlatLaf UIManager keys where JD has no
-`colorfor*` equivalent, e.g. `ProgressBar.selectionForeground`, so the percentage text stays
-readable against the light "Finished" fill instead of inheriting FlatLaf's own (too-light)
-default.
+JD only reads its own keys from this file and drops everything else, so raw FlatLaf keys such
+as `ProgressBar.selectionForeground` have no effect here. That is why the percentage sits next
+to the progress bar (`progresscolumntextposition: RIGHT`): JD fills the bar in the table's
+text colour, and FlatLaf's light label on top of it could not be read.
+
+On Windows the installer also sets `windowdecorationenabled: true` in the same file. JD then
+lets FlatLaf draw the title bar, which follows the theme, instead of the native Windows title
+bar, which stays light. Linux and macOS keep their native window decorations.
 
 The installer also writes two things into `cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings.json`:
 `lookandfeeltheme: FLATLAF_DARK` (so the dark L&F is active) and a handful of `false` flags that

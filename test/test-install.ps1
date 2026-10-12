@@ -44,6 +44,10 @@ try {
   $bytes = [IO.File]::ReadAllBytes((Join-Path $jd "cfg/$gui"))
   $bom = ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF)
   Check "1e writes BOM-free UTF-8" (-not $bom) "UTF-8 BOM present - JD's JSON parser chokes on it"
+
+  $laf = [IO.File]::ReadAllText((Join-Path $jd "cfg/laf/FlatDarkLaf.json"), [Text.Encoding]::UTF8) | ConvertFrom-Json
+  Check "1f lets FlatLaf draw the title bar" ($laf.windowdecorationenabled -eq $true) "native title bar stays light (#34)"
+  Check "1g keeps the theme colours" ($laf.colorforpanelbackground -eq "#ff161616") "theme keys lost while adding the title bar switch"
 } finally { Remove-Item -Recurse -Force $jd -ErrorAction SilentlyContinue }
 
 # Test 2: a fresh JDownloader without a settings file.
@@ -79,6 +83,12 @@ foreach ($t in @($ps1, (Join-Path $root "install/install.sh"), (Join-Path $root 
     (-not ($c -match "GUI\s*(>|&gt;|→|->)\s*Look")) `
     "points at Settings > GUI > Look & Feel, which JDownloader 2 has not"
 }
+
+# Test 6: JD maps cfg/laf/*.json onto its own settings interface and drops every other
+# key, so a raw FlatLaf key such as ProgressBar.selectionForeground silently does nothing.
+$theme = [IO.File]::ReadAllText((Join-Path $root "theme/cfg/laf/FlatDarkLaf.json")) | ConvertFrom-Json
+$raw = @($theme.PSObject.Properties.Name | Where-Object { $_ -match '\.' })
+Check "6 theme has no raw FlatLaf keys" ($raw.Count -eq 0) "JD ignores these: $($raw -join ', ')"
 
 if ($fail) { Write-Host "`nTESTS FAILED"; exit 1 }
 Write-Host "`nALL PASS"
