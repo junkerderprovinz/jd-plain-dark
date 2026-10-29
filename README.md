@@ -26,6 +26,12 @@ no Java agent</b>, just one config file.
 <br>
 
 <p align="center">
+  <a href="https://github.com/junkerderprovinz/knightloader"><img src=".github/assets/knightloader-ad.png" alt="KnightLoader downloads everything and looks good doing it: hosters, debrid, torrents, Usenet and videos, and it takes over your JDownloader accounts, rules and download list. Why don't you try?" width="100%"></a>
+</p>
+
+<br>
+
+<p align="center">
 A one-knight job: I build it, keep it running, work through the issues and add what people ask for, until nothing is missing. It is free, with no accounts, no telemetry, no ads and no paid tier. No asterisk anywhere. Nothing readable ever leaves your own walls. Forged on evenings and weekends, with heart and stubbornness.
 </p>
 
