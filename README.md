@@ -9,7 +9,7 @@
   <a href="https://github.com/junkerderprovinz/jd-plain-dark/actions/workflows/lint.yml"><img src="https://img.shields.io/github/actions/workflow/status/junkerderprovinz/jd-plain-dark/lint.yml?branch=main&label=Lint&style=for-the-badge&logo=githubactions&logoColor=white" alt="Lint" height="36"></a>&nbsp;
   <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases/latest"><img src="https://img.shields.io/github/v/release/junkerderprovinz/jd-plain-dark?display_name=tag&sort=semver&style=for-the-badge&logo=semver&logoColor=white&color=success&cacheSeconds=300" alt="Release" height="36"></a>&nbsp;
   <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases"><img src="https://img.shields.io/github/downloads/junkerderprovinz/jd-plain-dark/total?style=for-the-badge&logo=github&logoColor=white&label=Downloads" alt="Downloads" height="36"></a>&nbsp;
-  <a href="#3-install"><img src="https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-555?style=for-the-badge" alt="Platform" height="36"></a>&nbsp;
+  <a href="#5-install"><img src="https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-555?style=for-the-badge" alt="Platform" height="36"></a>&nbsp;
   <a href="https://jdownloader.org"><img src="https://img.shields.io/badge/JDownloader-2-2d8a42?style=for-the-badge&logoColor=white" alt="JDownloader 2" height="36"></a>&nbsp;
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-blue?style=for-the-badge&logo=gnu&logoColor=white" alt="License: AGPL-3.0" height="36"></a>
 </p>
@@ -23,25 +23,45 @@ the menu bar). It uses JDownloader's own colour configuration, so there is <b>no
 no Java agent</b>, just one config file.
 </p>
 
+<br>
+
+<p><a id="table-of-contents" href="#table-of-contents"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/table-of-contents-dark.svg"><img src=".github/assets/sections/table-of-contents.svg" alt="Table of Contents" width="100%"></picture></a></p>
+
+1. [Download](#1-download)
+2. [Support](#2-support)
+3. [What it does](#3-what-it-does)
+4. [Screenshots](#4-screenshots)
+5. [Install](#5-install)
+6. [How it works](#6-how-it-works)
+7. [Event Scripter fix (optional)](#7-event-scripter-fix-optional)
+8. [Uninstall](#8-uninstall)
+9. [Credits](#9-credits)
+10. [License](#10-license)
+11. [How AI is used here](#11-how-ai-is-used-here)
+
+<br>
+
+<p><a id="1-download" href="#1-download"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/1-download-dark.svg"><img src=".github/assets/sections/1-download.svg" alt="1. Download" width="100%"></picture></a></p>
+
 <!-- download-buttons: written by scripts/gen_download_buttons.py -->
 <p align="center">
-  <img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(0,0,841.9,245.3))" alt="Server" width="160" height="46.618">
+  <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/group-server-dark.svg"><img src=".github/assets/sections/group-server.svg" alt="Server" width="100%"></picture>
 </p>
 <p align="center">
-  <a href="https://ca.unraid.net/apps/jdownloader-18m0vwh17mexzh"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(866,0,841.9,245.3))" alt="Install from Unraid&#x27;s Community Applications" width="160" height="46.618"></a>
+  <a href="https://ca.unraid.net/apps/jdownloader-18m0vwh17mexzh"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=2df16324541e#svgView(viewBox(0,0,841.9,245.3))" alt="Install from Unraid&#x27;s Community Applications" width="160" height="46.618"></a>
   &nbsp;
-  <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases/latest"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(1732,0,841.9,245.3))" alt="Download the source archive" width="160" height="46.618"></a>
+  <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases/latest"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=2df16324541e#svgView(viewBox(866,0,841.9,245.3))" alt="Download the source archive" width="160" height="46.618"></a>
 </p>
 <br>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(2598,0,841.9,245.3))" alt="Desktop" width="160" height="46.618">
+  <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/group-desktop-dark.svg"><img src=".github/assets/sections/group-desktop.svg" alt="Desktop" width="100%"></picture>
 </p>
 <p align="center">
-  <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases/latest"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(3464,0,841.9,245.3))" alt="Download for Windows" width="160" height="46.618"></a>
+  <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases/latest"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=2df16324541e#svgView(viewBox(1732,0,841.9,245.3))" alt="Download for Windows" width="160" height="46.618"></a>
   &nbsp;
-  <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases/latest"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(4330,0,841.9,245.3))" alt="Download for macOS" width="160" height="46.618"></a>
+  <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases/latest"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=2df16324541e#svgView(viewBox(2598,0,841.9,245.3))" alt="Download for macOS" width="160" height="46.618"></a>
   &nbsp;
-  <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases/latest"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(5196,0,841.9,245.3))" alt="Download for Linux" width="160" height="46.618"></a>
+  <a href="https://github.com/junkerderprovinz/jd-plain-dark/releases/latest"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=2df16324541e#svgView(viewBox(3464,0,841.9,245.3))" alt="Download for Linux" width="160" height="46.618"></a>
 </p>
 <!-- /download-buttons -->
 
@@ -53,6 +73,8 @@ no Java agent</b>, just one config file.
 
 <br>
 
+<p><a id="2-support" href="#2-support"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/2-support-dark.svg"><img src=".github/assets/sections/2-support.svg" alt="2. Support" width="100%"></picture></a></p>
+
 <p align="center">
 A one-knight job: I build it, keep it running, work through the issues and add what people ask for, until nothing is missing. It is free, with no accounts, no telemetry, no ads and no paid tier. No asterisk anywhere. Nothing readable ever leaves your own walls. Forged on evenings and weekends, with heart and stubbornness.
 </p>
@@ -63,32 +85,17 @@ If it has earned a place on your server or computer, toss a coin to your knight:
 
 <!-- give-buttons: written by scripts/gen_download_buttons.py -->
 <p align="center">
-  <a href="https://buymeacoffee.com/junkerderprovinz"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(6062,0,841.9,245.3))" alt="Buy me a coffee" width="160" height="46.618"></a>
+  <a href="https://buymeacoffee.com/junkerderprovinz"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=2df16324541e#svgView(viewBox(4330,0,841.9,245.3))" alt="Buy me a coffee" width="160" height="46.618"></a>
   &nbsp;
-  <a href="https://www.paypal.com/donate/?hosted_button_id=76FVV52TKXTUS"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(6928,0,841.9,245.3))" alt="PayPal" width="160" height="46.618"></a>
+  <a href="https://www.paypal.com/donate/?hosted_button_id=76FVV52TKXTUS"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=2df16324541e#svgView(viewBox(5196,0,841.9,245.3))" alt="PayPal" width="160" height="46.618"></a>
   &nbsp;
-  <a href="https://junkerderprovinz.github.io/junkerderprovinz/"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(7794,0,841.9,245.3))" alt="Donate with crypto" width="160" height="46.618"></a>
+  <a href="https://junkerderprovinz.github.io/junkerderprovinz/"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=2df16324541e#svgView(viewBox(6062,0,841.9,245.3))" alt="Donate with crypto" width="160" height="46.618"></a>
 </p>
 <!-- /give-buttons -->
 
 <br>
 
-## Table of Contents
-
-1. [What it does](#1-what-it-does)
-2. [Screenshots](#2-screenshots)
-3. [Install](#3-install)
-4. [How it works](#4-how-it-works)
-5. [Event Scripter fix (optional)](#5-event-scripter-fix-optional)
-6. [Uninstall](#6-uninstall)
-7. [Credits](#7-credits)
-8. [License](#8-license)
-9. [How AI is used here](#9-how-ai-is-used-here)
-10. [Support this project](#10-support-this-project)
-
-<br>
-
-## 1. What it does
+<p><a id="3-what-it-does" href="#3-what-it-does"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/3-what-it-does-dark.svg"><img src=".github/assets/sections/3-what-it-does.svg" alt="3. What it does" width="100%"></picture></a></p>
 
 JDownloader 2 ships no proper dark mode: enable a dark Look & Feel and the *chrome*
 (menu bar, toolbar, headers, scrollbars) goes dark, but JD's custom content areas (the
@@ -106,7 +113,7 @@ red/amber for failed downloads and accounts).
 
 <br>
 
-## 2. Screenshots
+<p><a id="4-screenshots" href="#4-screenshots"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/4-screenshots-dark.svg"><img src=".github/assets/sections/4-screenshots.svg" alt="4. Screenshots" width="100%"></picture></a></p>
 
 <p align="center">
   <img src="docs/screenshots/preview.png" alt="JD Plain Dark: download list, context menu and settings in monochrome Carbon #161616" width="92%">
@@ -116,7 +123,7 @@ red/amber for failed downloads and accounts).
 
 <br>
 
-## 3. Install
+<p><a id="5-install" href="#5-install"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/5-install-dark.svg"><img src=".github/assets/sections/5-install.svg" alt="5. Install" width="100%"></picture></a></p>
 
 ### Option A: download & run the installer (recommended)
 
@@ -165,7 +172,7 @@ affected.
 
 <br>
 
-## 4. How it works
+<p><a id="6-how-it-works" href="#6-how-it-works"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/6-how-it-works-dark.svg"><img src=".github/assets/sections/6-how-it-works.svg" alt="6. How it works" width="100%"></picture></a></p>
 
 JDownloader stores per-Look-&-Feel colours in `cfg/laf/FlatDarkLaf.json` using `colorfor*`
 keys (e.g. `colorfortablepackagerowbackground`). JD's own renderer reads these, including the
@@ -190,7 +197,7 @@ configuration, JD's automatic updates don't break it.
 
 <br>
 
-## 5. Event Scripter fix (optional)
+<p><a id="7-event-scripter-fix-optional" href="#7-event-scripter-fix-optional"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/7-event-scripter-fix-optional-dark.svg"><img src=".github/assets/sections/7-event-scripter-fix-optional.svg" alt="7. Event Scripter fix (optional)" width="100%"></picture></a></p>
 
 The theme is config-only and needs nothing else. This section is **only** for people who use
 the **Event Scripter** extension and hit a separate JDownloader bug: on any FlatLaf dark Look &
@@ -213,7 +220,7 @@ this entirely. The theme stays pure config and needs no agent.
 
 <br>
 
-## 6. Uninstall
+<p><a id="8-uninstall" href="#8-uninstall"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/8-uninstall-dark.svg"><img src=".github/assets/sections/8-uninstall.svg" alt="8. Uninstall" width="100%"></picture></a></p>
 
 Close JDownloader, delete `cfg/laf/FlatDarkLaf.json` from your JDownloader folder, then start it
 again and set `lookandfeeltheme` back to `DEFAULT` under **Settings → Advanced Settings**.
@@ -221,7 +228,7 @@ Restart JDownloader.
 
 <br>
 
-## 7. Credits
+<p><a id="9-credits" href="#9-credits"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/9-credits-dark.svg"><img src=".github/assets/sections/9-credits.svg" alt="9. Credits" width="100%"></picture></a></p>
 
 The technique of overriding JDownloader's native `colorfor*` colour config to reach the content
 areas was inspired by the community **Material Darker** theme. The colours here are our own
@@ -231,7 +238,7 @@ Derived from the dark theme built into the [JDownloader-for-Unraid container](ht
 
 <br>
 
-## 8. License
+<p><a id="10-license" href="#10-license"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/10-license-dark.svg"><img src=".github/assets/sections/10-license.svg" alt="10. License" width="100%"></picture></a></p>
 
 **Copyright (C) 2026 Junker der Provinz.**
 
@@ -241,30 +248,12 @@ JD Plain Dark is free software under the **GNU Affero General Public License v3.
 
 <br>
 
-## 9. How AI is used here
+<p><a id="11-how-ai-is-used-here" href="#11-how-ai-is-used-here"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/sections/11-how-ai-is-used-here-dark.svg"><img src=".github/assets/sections/11-how-ai-is-used-here.svg" alt="11. How AI is used here" width="100%"></picture></a></p>
 
 One knight builds this, and AI is one of the tools I work with, the same way I work with an editor or a compiler. It helps me write code and documentation and it checks my work, and that saves me a good many evenings. It does not make the decisions, though. I read and understand everything before it ships, and if something here breaks, that is on me and not on the tool.
 
 You do not have to take my word for it. The code is open and every release note is written by hand. The issue tracker shows how problems actually get handled, including the ones I got wrong the first time. If you find something that is not right, open an issue and I will look at it.
 
 <br>
-
-## 10. Support this project
-
-Questions, bugs, ideas or feature requests? Please [open a GitHub issue](https://github.com/junkerderprovinz/jd-plain-dark/issues).
-
-A one-knight job: I build it, keep it running, work through the issues and add what people ask for, until nothing is missing. It is free, with no accounts, no telemetry, no ads and no paid tier. No asterisk anywhere. Nothing readable ever leaves your own walls. Forged on evenings and weekends, with heart and stubbornness.
-
-If it has earned a place on your server or computer, toss a coin to your knight: it helps cover the costs and keeps the project alive. It also makes this knight's heart beat a little faster. Three ways below, whichever suits you.
-
-<!-- give-buttons: written by scripts/gen_download_buttons.py -->
-<p align="center">
-  <a href="https://buymeacoffee.com/junkerderprovinz"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(6062,0,841.9,245.3))" alt="Buy me a coffee" width="160" height="46.618"></a>
-  &nbsp;
-  <a href="https://www.paypal.com/donate/?hosted_button_id=76FVV52TKXTUS"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(6928,0,841.9,245.3))" alt="PayPal" width="160" height="46.618"></a>
-  &nbsp;
-  <a href="https://junkerderprovinz.github.io/junkerderprovinz/"><img src="https://raw.githubusercontent.com/junkerderprovinz/jd-plain-dark/main/.github/assets/download-buttons/buttons.svg?v=15005499047b#svgView(viewBox(7794,0,841.9,245.3))" alt="Donate with crypto" width="160" height="46.618"></a>
-</p>
-<!-- /give-buttons -->
 
 Issues and suggestions: [GitHub Issues](https://github.com/junkerderprovinz/jd-plain-dark/issues).
