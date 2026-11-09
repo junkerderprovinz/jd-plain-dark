@@ -9,4 +9,4 @@ permissions:
 
 jobs:
   comments:
-    uses: junkerderprovinz/junkerderprovinz/.github/workflows/comment-style.yml@32ba0f5e3065bece6650d0d30d31342f7bfb7ffc # main
+    uses: junkerderprovinz/junkerderprovinz/.github/workflows/comment-style.yml@1bdc6e4ee6c412b01200c141438290957b2f8f01 # main
