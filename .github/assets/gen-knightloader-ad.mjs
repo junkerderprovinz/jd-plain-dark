@@ -3,13 +3,13 @@
  * style of KnightLoader's own notices: 1920x640, the crest and the name large so the
  * app is known at a glance, the downloads page on the right. The file is the same in
  * every repo that carries the banner; logo and screenshot come from the KnightLoader repo.
- * The name is set in Bree Serif Light and the claim in Bree Light, read as TTF from
+ * The name is set in Bree Serif Light, everything else in Bree Light, read as TTF from
  * HOUSE_FONTS (default %LOCALAPPDATA%\halleluja-fonts).
  *
  * Needs playwright-core installed globally and Chrome.
  * Run: node .github/assets/gen-knightloader-ad.mjs
  */
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
@@ -21,14 +21,11 @@ const { chromium } = require(`${execSync("npm root -g").toString().trim()}/playw
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-async function cached(file, url) {
-  const path = join(tmpdir(), `knightloader-ad-${file}`);
-  if (!existsSync(path)) {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`${file}: fetch ${res.status}`);
-    writeFileSync(path, Buffer.from(await res.arrayBuffer()));
-  }
-  return readFileSync(path);
+// Logo and screenshot are fetched on every run, so the ad always shows the current KnightLoader.
+async function fetched(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${url}: fetch ${res.status}`);
+  return Buffer.from(await res.arrayBuffer());
 }
 
 const dataUrl = (buf, type) => `data:${type};base64,${buf.toString("base64")}`;
@@ -37,10 +34,9 @@ const fonts = process.env.HOUSE_FONTS ?? join(process.env.LOCALAPPDATA ?? tmpdir
 const houseFont = (file) => dataUrl(readFileSync(join(fonts, file)), "font/ttf");
 const breeSerif = houseFont("bree-serif-light.ttf");
 const bree = houseFont("bree-light.ttf");
-const latoBold = dataUrl(await cached("Lato-Bold.ttf", "https://github.com/google/fonts/raw/main/ofl/lato/Lato-Bold.ttf"), "font/ttf");
 const kl = "https://raw.githubusercontent.com/junkerderprovinz/knightloader/main/.github/assets";
-const mark = dataUrl(await cached("logo.svg", `${kl}/logo.svg`), "image/svg+xml");
-const shot = dataUrl(await cached("downloads.png", `${kl}/screenshots/knightloader-2-downloads.png`), "image/png");
+const mark = dataUrl(await fetched(`${kl}/logo.svg`), "image/svg+xml");
+const shot = dataUrl(await fetched(`${kl}/screenshots/knightloader-2-downloads.png`), "image/png");
 
 // The screenshot is a 3840x2000 marketing picture; the window sits at these fractions of it.
 const win = { left: 0.322, top: 0.083, width: 0.666, height: 0.843 };
@@ -50,7 +46,6 @@ const winHeight = Math.round(((winWidth / win.width) * win.height * 2000) / 3840
 const html = `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face { font-family: "Bree Serif"; src: url(${breeSerif}); font-weight: 300; }
 @font-face { font-family: Bree; src: url(${bree}); font-weight: 300; }
-@font-face { font-family: Lato; src: url(${latoBold}); font-weight: 700; }
 * { box-sizing: border-box; margin: 0; }
 body { position: relative; width: 1920px; height: 640px; overflow: hidden; font-family: Bree, sans-serif; background: #0c0c0b; }
 .wall { position: absolute; inset: 0; background: radial-gradient(55% 60% at 62% 35%, #26231d, #0f0e0c 72%); }
@@ -59,11 +54,11 @@ body { position: relative; width: 1920px; height: 640px; overflow: hidden; font-
 .vignette { position: absolute; inset: 0; box-shadow: inset 0 0 200px rgba(0,0,0,.6); }
 .crest { position: absolute; left: 56px; top: 100px; height: 440px; filter: drop-shadow(0 20px 40px rgba(0,0,0,.6)); }
 .copy { position: absolute; left: 420px; top: 0; bottom: 0; width: 740px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 22px; }
-.label { padding: 8px 18px; border-radius: 8px; background: #FCC419; color: #141414; font: 700 22px/1 Lato, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+.label { padding: 8px 18px; border-radius: 8px; background: #FCC419; color: #141414; font: 300 22px/1 Bree, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
 .name { font: 300 118px/1 "Bree Serif", serif; color: #f4f4f4; white-space: nowrap; }
 h1 { font: 300 44px/1.1 Bree, sans-serif; color: #f4f4f4; }
 h1 em { font-style: normal; color: #FCC419; }
-.go { margin-top: 10px; padding: 20px 38px; border-radius: 18px; background: #FCC419; color: #141414; font: 700 32px/1 Lato, sans-serif;
+.go { margin-top: 10px; padding: 20px 38px; border-radius: 18px; background: #FCC419; color: #141414; font: 300 32px/1 Bree, sans-serif;
   box-shadow: 0 0 0 6px rgba(252,196,25,.18), 0 18px 40px rgba(0,0,0,.5); }
 .window { position: absolute; right: 48px; top: 50%; width: ${winWidth}px; height: ${winHeight}px; overflow: hidden; border-radius: 14px;
   transform: translateY(-50%) perspective(1800px) rotateY(-9deg); box-shadow: 0 30px 60px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.06); }
@@ -84,7 +79,7 @@ h1 em { font-style: normal; color: #FCC419; }
 const browser = await chromium.launch({ channel: "chrome" });
 const big = await browser.newPage({ viewport: { width: 1920, height: 640 }, deviceScaleFactor: 2 });
 await big.setContent(html);
-await big.evaluate(() => Promise.all(['300 1em "Bree Serif"', "300 1em Bree", "700 1em Lato"].map((f) => document.fonts.load(f))));
+await big.evaluate(() => Promise.all(['300 1em "Bree Serif"', "300 1em Bree"].map((f) => document.fonts.load(f))));
 const png = await big.screenshot();
 const small = await browser.newPage({ viewport: { width: 1920, height: 640 } });
 await small.setContent(`<body style="margin:0"><img src="${dataUrl(png, "image/png")}" style="display:block;width:1920px;height:640px">`);
