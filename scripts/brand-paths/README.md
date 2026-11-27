@@ -22,6 +22,5 @@ in one ink. **Apache-2.0**, whose licence text is beside this file as
 Every platform mark here is a trademark of its owner. They are used the one way a
 trademark may be used without permission, which is to refer to the thing they
 name: each sits on a download button for that platform, unmodified, and nothing
-here claims endorsement by or affiliation with Microsoft, Apple, the Linux
-Foundation or Lime Technology. The ZIP is no one's mark; it stands for the
-source archive.
+here claims endorsement by or affiliation with Microsoft, Apple, Linus Torvalds
+or Lime Technology. The ZIP is no one's mark. It stands for the source archive.
